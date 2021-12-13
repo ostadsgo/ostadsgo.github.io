@@ -1,4 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color: #dbdfeb;
+    
+}
+
+
 body {
+    background-color: var(--bg-color);
     direction: rtl;
     text-align: right;
+}
+
+nav {
+    width: 100%;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav li {
+    display: inline;
+}
+
+nav a {
+    background-color: #af457a;
+    padding: .1rem .5rem;
+    text-align: center;
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+}
+
+section {
+    margin-top: 2rem;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 5rem;
+    justify-content: center;
+}
+
+.intro {
+    background-color: #64a3ac;
+    height: 70vh; 
+
+}
+
+.posts {
+    background-color: #a3565a;
+    height: 70vh; 
+
+}
+
+.learning {
+    background-color: #588bb9;
+    height: 70vh; 
+}
+
+.books-list {
+    direction: ltr;
+    text-align: left;
+}
+
+footer {
+    direction: ltr;
+    text-align: left;
+    margin-top: 2rem;
+    background-color: #82a35d;
+    padding: 2rem;
 }
