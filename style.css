@@ -12,6 +12,11 @@
 
 :root {
   --bg-color: #dbdfeb;
+  --black700: #212529;
+  --black500: #343a40; 
+  --white700: #e9ecef;
+  --white500: #f8f9fa;
+
   direction: rtl;
   text-align: right;
 }
@@ -23,6 +28,11 @@ body {
 
 nav {
   text-align: center;
+  background-color: var(--black700);
+  padding: 1em 0;
+  /* border-bottom: 5px solid #ee6c4d; */
+  /* position: fixed; */
+  width: 100vw;
 }
 
 a {
@@ -34,10 +44,14 @@ nav li {
 }
 
 nav a {
-  background-color: #af457a;
-  padding: .1rem .5rem;
+  padding-left: 1em;
+  padding-right: 1em;
   text-align: center;
-  color: white;
+  color: var(--white500);
+}
+
+nav a:hover {
+  color: var(--white700);
 }
 
 main {
@@ -64,21 +78,19 @@ footer {
   padding: 2rem;
 }
 
-.welcome {
-  /* margin-top: .5rem; */
+.hero {
   text-align: center;
-  background: #1d3557;
   padding: 50px 0;
-  height: 50vh;
-  color: #f2e9e4;
+  color: var(--black);
+  margin: inherit 10%;
 }
 
 /* SECTIONS */
-/* ------------------
+/* ========================
   About Section
------------------- */
+======================== */
 .about {
-  width: 75%;
+  /* width: 75%; */
 }
 
 .about li {
@@ -86,9 +98,9 @@ footer {
   margin-right: 15px;
 }
 
-/* ------------------
+/* ========================
   Blog post section.
------------------- */
+======================== */
 .posts {
   display: flex;
   justify-content: space-between;
@@ -135,9 +147,9 @@ footer {
 
 }
 
-/* -----------------------
+/* ========================
   What am I learning now.
--------------------------- */
+============================ */
 .books {
   display: flex;
   background-color: dodgerblue;
@@ -172,9 +184,9 @@ footer {
 
 
 
-/* -----------------------
+/* ========================
   Media Quries
--------------------------- */
+=========================== */
 @media only screen and (max-width: 600px) {
   .container {
     margin: 0 1em;
