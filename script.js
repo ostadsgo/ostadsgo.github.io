@@ -1,11 +1,15 @@
 
-const COLORS = [
-    { bg: "#f1faee", outline: "#f2cc8f", hover: "#fca311", header: "#457b9d", link: "#1d3557" },
 
-]
 
-let posts = document.getElementsByClassName("posts")[0];
+// how many page I've been red form 
+let pages = document.getElementById("value").textContent;
+let red_page = parseInt(pages.split(" ")[1]);
+let total_pages = parseInt(pages.split(" ")[3]);
 
-let post1 = posts.children[0];
-// post1.style.background = COLORS[0];
-
+// Calculate done percteged 
+let done_percentage = Math.round((100 / total_pages) * red_page);
+let done_percentage_format = `${done_percentage}%`;
+let progress = document.getElementById("progress");
+progress.innerHTML = done_percentage_format;
+// Update width of the progress in progressbar
+progress.style.width = done_percentage_format;
