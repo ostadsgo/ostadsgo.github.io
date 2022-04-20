@@ -16,7 +16,6 @@
   --black500: #343a40; 
   --white700: #e9ecef;
   --white500: #f8f9fa;
-
   direction: rtl;
   text-align: right;
 }
@@ -26,16 +25,14 @@ body {
   font-family: IranSans;
 }
 
-
-
 .bio {
   display: flex;
   flex-direction: column;
   gap: 3rem;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  max-width: 100vw;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
 .bio > h1 {
@@ -43,6 +40,7 @@ body {
   text-align: center;
   font-size: 2rem;
 }
+
 .content {
   line-height: 2em;
   padding-inline: 10%;
