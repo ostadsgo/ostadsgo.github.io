@@ -1,0 +1,67 @@
+@font-face {
+  font-family: IranSans;
+  src: url("./fonts/Iransans/IRANSansWeb.woff") format("woff");
+}
+
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-color: #dbdfeb;
+  --black700: #212529;
+  --black500: #343a40; 
+  --white700: #e9ecef;
+  --white500: #f8f9fa;
+  direction: rtl;
+  text-align: right;
+}
+
+body {
+  background-color: var(--bg-color);
+  font-family: IranSans;
+}
+
+main {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Bio section */
+ul {
+  list-style-type: none;
+}
+
+.bio {
+  padding-inline: 1em;
+}
+
+.bio > h1 {
+  font-size: 1.7rem;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.bio .content li {
+  line-height: 2.2;
+  font-size: 1.1rem;
+}
+
+.bio > .links {
+  text-align: center;
+  margin-top: 2em;
+}
+
+.bio .links > * {
+  margin-right: 1em;
+}
+
+
+
