@@ -17,7 +17,9 @@
     <header>
       <nav aria-label="Main Navigation">
         <ul>
-          <li><a href="/" aria-current="page">سعید غلامی</a></li>
+          <li class="home-link">
+            <a href="/" aria-current="page">سعید غلامی</a>
+          </li>
           <li><a href="./about.html">درباره من</a></li>
           <li><a href="./blog.html">بلاگ</a></li>
         </ul>
@@ -29,43 +31,47 @@
           <img src="img/me.jpg" alt="عکس من" />
         </div>
         <div class="slogan">
-          <h1>
-            برنامه نویس و مدرس پایتون،
-            <span>از تبدیل ایده به واقعیت تا خلق تجربه ای ناب در آموزش</span>
-          </h1>
+          <div>
+            <h1>برنامه نویس و مدرس پایتون</h1>
+            <h2>از تبدیل ایده به واقعیت تا خلق تجربه ای ناب در آموزش</h2>
+          </div>
           <div class="social-links">
             <ul>
               <li>
                 <a href="https://t.me/ostadsgo">
-                  Telegram
                   <i class="fa-brands fa-telegram"></i>
+                  تلگرام
                 </a>
               </li>
               <li>
-                <a href="https://instagram.com/ostadsgo"
-                  >Instagram
+                <a href="https://instagram.com/ostadsgo">
                   <i class="fa-brands fa-instagram"></i>
+                  اینستاگرام
                 </a>
               </li>
               <li>
-                <a href="https://github.com/ostadsgo"
-                  >Github
+                <a href="https://github.com/ostadsgo">
                   <i class="fa-brands fa-github"></i>
+                  گیت‌هاب
                 </a>
               </li>
             </ul>
           </div>
         </div>
       </section>
-      <section class="recent-post">
+      <section class="recent-posts">
         <h2>نوشته های اخیر</h2>
         <div class="posts">
-          <div class="post">
+          <article class="post">
             <h2><a href="#">آموزش پایتون برای مبتتدیان</a></h2>
             <div class="post-info">
-              <span>تاریخ</span>
-              <span>۳ دقیقه</span>
-              <span>تگ پایتنو</span>
+              <ul>
+                <li>
+                  <i class="fa-solid fa-calendar-days"></i><span>تاریخ</span>
+                </li>
+                <li><i class="fa-solid fa-clock"></i><span>۳ دقیقه</span></li>
+                <li><i class="fa-solid fa-tag"></i><span>پایتون</span></li>
+              </ul>
             </div>
             <p>
               لورم ایپسوم متنی است که ساختگی برای ارائه نمایشی از یک سند چاپی یا
@@ -74,13 +80,17 @@
               متن برای شبیه‌سازی صفحات وب، مجلات، کتاب‌ها و دیگر محصولات چاپی
               استفاده می‌شود.
             </p>
-          </div>
-          <div class="post">
+          </article>
+          <article class="post">
             <h2><a href="#">آموزش پایتون برای مبتتدیان </a></h2>
             <div class="post-info">
-              <span>تاریخ</span>
-              <span>۳ دقیقه</span>
-              <span>تگ پایتنو</span>
+              <ul>
+                <li>
+                  <i class="fa-solid fa-calendar-days"></i><span>تاریخ</span>
+                </li>
+                <li><i class="fa-solid fa-clock"></i><span>۳ دقیقه</span></li>
+                <li><i class="fa-solid fa-tag"></i><span>پایتون</span></li>
+              </ul>
             </div>
             <p>
               لورم ایپسوم متنی است که ساختگی برای ارائه نمایشی از یک سند چاپی یا
@@ -89,7 +99,7 @@
               متن برای شبیه‌سازی صفحات وب، مجلات، کتاب‌ها و دیگر محصولات چاپی
               استفاده می‌شود.
             </p>
-          </div>
+          </article>
         </div>
       </section>
     </main>
@@ -98,11 +108,31 @@
       <h3>Saeed Gholami <i class="fa-regular fa-copyright"></i></h3>
       <div>
         <ul>
-          <li><a href="https://t.me/ostadsgo"><i class="fa-brands fa-telegram"></i></a></li>
-          <li><a href="https://instagram.com/ostadsgo"><i class="fa-brands fa-instagram"></i></a></li>
-          <li><a href="https://github.com/ostadsgo"><i class="fa-brands fa-github"></i></a></li>
-          <li><a href="https://youtube.com/ostadsgo"><i class="fa-brands fa-youtube"></i></a></li>
-          <li><a href="https://linkedin.com/in/saeedxgholami/"><i class="fa-brands fa-linkedin"></i></a></li>
+          <li>
+            <a href="https://t.me/ostadsgo"
+              ><i class="fa-brands fa-telegram"></i
+            ></a>
+          </li>
+          <li>
+            <a href="https://instagram.com/ostadsgo"
+              ><i class="fa-brands fa-instagram"></i
+            ></a>
+          </li>
+          <li>
+            <a href="https://github.com/ostadsgo"
+              ><i class="fa-brands fa-github"></i
+            ></a>
+          </li>
+          <li>
+            <a href="https://youtube.com/ostadsgo"
+              ><i class="fa-brands fa-youtube"></i
+            ></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/saeedxgholami/"
+              ><i class="fa-brands fa-linkedin"></i
+            ></a>
+          </li>
         </ul>
       </div>
     </footer>

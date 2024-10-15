@@ -17,7 +17,12 @@
   --blue: #708090;
   --red: #b6927b;
   --gray: #707070;
+  --yellow: #f4bf75;
   --main-gap: 4rem;
+  --main-margin: 2rem;
+  --mobile-gap: 2rem;
+  --mobile-margin: 1rem;
+
   direction: rtl;
   text-align: right;
 }
@@ -27,7 +32,7 @@ body {
   color: var(--text);
   font-family: IranSans;
   max-width: 60%;
-  margin: 1.5rem auto;
+  margin: var(--main-margin) auto;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -44,6 +49,10 @@ a {
   color: var(--blue);
 }
 
+ul {
+  list-style-type: none;
+}
+
 a:hover {
   color: var(--red);
 }
@@ -52,7 +61,7 @@ a:hover {
 nav ul {
   display: flex;
   justify-content: space-between;
-  list-style-type: none;
+  align-items: center;
 }
 
 nav ul li:first-child {
@@ -61,11 +70,10 @@ nav ul li:first-child {
   font-weight: bold;
 }
 
-nav ul li a {
-  text-decoration: none;
-  color: var(--blue);
-  padding: 0.75rem 1rem;
+nav ul li:nth-child(n+2) {
+  margin-right: 0.75rem;
 }
+
 
 main {
   display: flex;
@@ -75,11 +83,9 @@ main {
 
 /* Intro (me) section */
 .intro {
-  color: var(--text);
-  margin: 3rem 0;
+  margin: var(--main-margin) 0;
   display: flex;
-  justify-content: space-between;
-  gap: 4rem;
+  gap: var(--main-gap); /* gap between image and slogan */
 }
 
 .me-pic img {
@@ -87,46 +93,53 @@ main {
   height: 142px;
   border-radius: 50%;
   border: 5px solid transparent;
-  background:
-    linear-gradient(to top, var(--blue), var(--red)) border-box;
-}
-
-.slogan {
-  margin: 1rem 0;
+  background: linear-gradient(to top, var(--blue), var(--red)) border-box;
 }
 
 .slogan h1 {
   font-size: 2rem;
 }
 
-.slogan h1 span {
-  font-size: 1rem;
+.slogan h2 {
+  font-size: 1.2rem;
   font-weight: 500;
+  color: var(--gray);
+  margin-top: .5rem;
 }
 
 .social-links ul {
-  list-style-type: none;
   display: flex;
-  flex-direction: row-reverse;
-  gap: 2rem;
-  margin-left: 1rem;
-}
-
-.social-links ul li a {
-  text-decoration: none;
+  gap: 2rem; /* gap between social links */
+  margin-top: 1rem; /* margin between social links and slogan */
 }
 
 /* recent posts */
-.recent-post {
-  color: var(--text);
+.recent-posts > h2 {
+  font-size: 1.2rem;
 }
 
-.post {
-  padding-top: 1.5rem;
+.posts {
+  margin-top: 0.5rem;
+}
+
+/* apply only from second child */
+.post:nth-child(n + 2) {
+  margin-top: var(--main-margin); /* margin between each post */
 }
 
 .post-info {
   padding: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.post-info ul li {
+  color: var(--gray);
+  display: inline;
+  padding-left: 1rem;
+}
+
+.post-info ul li i {
+  padding-left: 5px;
 }
 
 /* footer */
@@ -134,17 +147,57 @@ footer {
   display: flex;
   justify-content: space-between;
   flex-direction: row-reverse;
+  align-items: center;
 }
 footer h3 {
   color: var(--gray);
   font-size: 1rem;
 }
-footer ul {
-  list-style-type: none;
-}
 
+/* links in footer */
 footer div ul {
   display: flex;
   flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  body {
+    max-width: 85%;
+    margin: var(--mobile-margin) auto;
+    gap: var(--mobile-gap);
+  }
+
+  nav ul li a {
+    font-size: 0.75rem;
+  }
+
+  .home-link a {
+    font-size: 1.2rem;
+  }
+
+  main {
+    gap: var(--mobile-gap);
+  }
+
+  .intro {
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+    margin: var(--mobile-margin) 0;
+    gap: 1rem; /* gap between image and slogan */
+  }
+  .slogan h1 {
+    font-size: 1.5rem;
+  }
+  .slogan h1 span {
+    font-size: 0.75rem;
+  }
+  .social-links ul {
+    flex-direction: column;
+    gap: .5rem;
+  }
 }
