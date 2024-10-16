@@ -18,8 +18,8 @@
   --red: #b6927b;
   --gray: #707070;
   --yellow: #f4bf75;
-  --main-gap: 4rem;
-  --main-margin: 2rem;
+  --main-margin: 3rem;
+  --big-margin: 6rem;
   --mobile-gap: 2rem;
   --mobile-margin: 1rem;
 
@@ -32,11 +32,7 @@ body {
   color: var(--text);
   font-family: IranSans;
   max-width: 60%;
-  margin: var(--main-margin) auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  gap: var(--main-gap);
+  margin: 0 auto;
 }
 
 /* global */
@@ -58,6 +54,10 @@ a:hover {
 }
 
 /* header: navbar */
+header {
+  margin: 3rem;
+}
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -81,17 +81,12 @@ nav .logo {
   font-size: 24px;
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  gap: var(--main-gap);
-}
 
 /* Intro (me) section */
 .intro {
-  margin: var(--main-margin) 0;
+  margin: var(--big-margin) 0;
   display: flex;
-  gap: var(--main-gap); /* gap between image and slogan */
+  gap: 4rem; /* gap between image and slogan */
 }
 
 .me-pic img {
@@ -130,7 +125,7 @@ main {
 
 /* apply only from second child */
 .post:nth-child(n + 2) {
-  margin-top: var(--main-margin); /* margin between each post */
+  margin-top: 2rem; /* margin between each post */
 }
 
 .post-info {
@@ -154,7 +149,9 @@ footer {
   justify-content: space-between;
   flex-direction: row-reverse;
   align-items: center;
+  margin: 3rem 0 1rem 0 ;
 }
+
 footer h3 {
   color: var(--gray);
   font-size: 1rem;
@@ -172,9 +169,12 @@ footer div ul {
 /* responsive */
 @media (max-width: 768px) {
   body {
-    max-width: 85%;
+    min-width: 85%;
     margin: var(--mobile-margin) auto;
-    gap: var(--mobile-gap);
+  }
+
+  header {
+    margin: var(--mobile-margin) 0;
   }
 
   nav ul li a {
@@ -237,23 +237,26 @@ footer div ul {
     opacity: 1; /* Fade-in the bars icon */
   }
 
-  main {
-    gap: var(--mobile-gap);
-  }
 
   .intro {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: var(--mobile-margin) 0;
+    margin: 3rem 0;
     gap: 1rem; /* gap between image and slogan */
   }
+
+  .intro .me-pic {
+    display: flex;
+    justify-content: center;
+  }
+
   .slogan h1 {
     font-size: 1.5rem;
   }
+
   .slogan h1 span {
     font-size: 0.75rem;
   }
+
   .social-links ul {
     flex-direction: column;
     gap: 0.5rem;
