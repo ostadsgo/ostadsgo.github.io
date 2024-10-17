@@ -29,13 +29,13 @@ body {
   background-color: var(--bg-color);
   color: var(--text);
   font-family: IranSans;
-  max-width: 60%;
+  max-width: 50%;
   margin: 0 auto;
 }
 
 /* global */
 p {
-  line-height: 1.5;
+  line-height: 2;
 }
 
 a {
@@ -113,17 +113,21 @@ nav .logo {
 }
 
 /* recent posts */
-.recent-posts > h2 {
-  font-size: 1.2rem;
-}
-
-.posts {
+.post-list {
   margin-top: 0.5rem;
 }
 
 /* apply only from second child */
 .post:nth-child(n + 2) {
   margin-top: 2rem; /* margin between each post */
+}
+
+.post h2 {
+  margin-block: 1.2rem .5rem;
+}
+
+.post p {
+  margin-block: .5rem 0;
 }
 
 .post-info {
@@ -171,6 +175,11 @@ footer div ul {
 
 .about h2:nth-child(n+2) {
   margin-top: 1.5rem;
+}
+
+/* Blog */
+.blog {
+
 }
 
 /* responsive */
