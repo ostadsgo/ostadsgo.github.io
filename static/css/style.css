@@ -1,3 +1,4 @@
+/* todo: use grid to make footer in bottom main to be main part and header on top.. */
 @font-face {
   font-family: IranSans;
   src: url("../fonts/Iransans/IRANSansWeb.woff") format("woff");
@@ -20,7 +21,7 @@
   --yellow: #f4bf75;
   --mobile-gap: 2rem;
   --mobile-margin: 1rem;
-
+  --font: IranSans;
   direction: rtl;
   text-align: right;
 }
@@ -28,9 +29,13 @@
 body {
   background-color: var(--bg-color);
   color: var(--text);
-  font-family: IranSans;
+  font-family: var(--font);
   max-width: 50%;
+  height: 100vh;
   margin: 0 auto;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
 }
 
 /* global */

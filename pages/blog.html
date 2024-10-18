@@ -10,9 +10,9 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="$css" />
-    <script src="$js" defer></script>
-    <title>$title</title>
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <script src="../static/js/script.css" defer></script>
+    <title>اولین برنامه جدی با پایتون</title>
   </head>
   <body>
     <header>
@@ -24,7 +24,10 @@
         </ul>
         <div class="left-menu">
           <ul>
-            $navlist
+            <li><a href="../pages/blog.html">بلاگ</a></li>
+<li><a href="../pages/projects.html">پروژه ها</a></li>
+<li><a href="../pages/about.html">درباره من</a></li>
+
           </ul>
         </div>
         <div class="ham">
@@ -32,7 +35,29 @@
         </div>
       </nav>
     </header>
-    <main>$content</main>
+    <main><section class="post-list">
+  <article class="post">
+    <h2>
+      <a href="../posts/first_serious_app.html"
+        >برنامه دخل و خرج: اولین برنامه ای جدی که نوشتم</a
+      >
+    </h2>
+    <div class="post-info">
+      <ul>
+        <li><i class="fa-solid fa-calendar-days"></i><span>تاریخ</span></li>
+        <li><i class="fa-solid fa-clock"></i><span>۳ دقیقه</span></li>
+        <li><i class="fa-solid fa-tag"></i><span>پایتون</span></li>
+      </ul>
+    </div>
+    <p>
+      در زمان دانشگاه با هم اتاقی ها خواب همیشه لازم بود که یکی دخل و خرج رو
+      حساب کنه و این بعنوان کامپیوتری برای ما مایع شرم بود. آیا راهی نبود که این
+      کارها کمی اتوماتیک بشه. البته که بود با نوشتن یک برنامه می تونستیم کمی
+      مراحل رو اتوماتیک کنیم.
+    </p>
+  </article>
+</section>
+</main>
     <footer>
       <h3>Saeed Gholami <i class="fa-regular fa-copyright"></i></h3>
       <div>

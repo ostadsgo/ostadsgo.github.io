@@ -57,7 +57,7 @@ def make_page(base: str, content: str, **kwargs) -> str:
     title = kwargs.get("title", "None")
     css = kwargs.get("css", "None")
     js = kwargs.get("js", "None")
-    links = readfile("./includes/page_nav.html")
+    links = readfile("./includes/nav.html")
     return (
         base.replace("$css", css)
         .replace("$js", js)
@@ -112,12 +112,18 @@ def add_new_link():
     mainfiles = os.listdir("./main")
     base = readfile("./base/base.html")
     for file in mainfiles:
-        main = f"./main/{file}"
+        mainfile = f"./main/{file}"
+        main = readfile(mainfile)
         extra = dict(
             title="اولین برنامه جدی با پایتون",
             css="../static/css/style.css",
             js="../static/js/script.css",
         )
+        html = make_page(base, main, **extra)
+        pagefile = f"./pages/{file}"
+        writefile(pagefile, html)
+        
+
 
 
 def main():
