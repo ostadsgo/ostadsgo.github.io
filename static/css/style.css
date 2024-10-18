@@ -1,4 +1,3 @@
-/* todo: use grid to make footer in bottom main to be main part and header on top.. */
 @font-face {
   font-family: IranSans;
   src: url("../fonts/Iransans/IRANSansWeb.woff") format("woff");
@@ -13,7 +12,7 @@
 }
 
 :root {
-  --bg-color: #080808;
+  --bg: #080808;
   --text: #cdcdcd;
   --blue: #708090;
   --red: #b6927b;
@@ -27,7 +26,7 @@
 }
 
 body {
-  background-color: var(--bg-color);
+  background-color: var(--bg);
   color: var(--text);
   font-family: var(--font);
   max-width: 50%;
@@ -53,6 +52,26 @@ ul {
 }
 
 a:hover {
+  color: var(--red);
+}
+
+/* Dark mode */
+.dark {
+  color: var(--text);
+  background: var(--bg);
+}
+
+.light {
+  color: var(--bg);
+  background: var(--text);
+}
+
+/* .switcher { */
+/*   cursor: pointer; */
+/*   color: var(--text); */
+/* } */
+.switcher i:hover {
+  cursor: pointer;
   color: var(--red);
 }
 
@@ -187,6 +206,17 @@ footer div ul {
 
 }
 
+@media (max-width: 1368px) {
+  body {
+    min-width: 65%;
+  }
+}
+
+@media (max-width: 1024px) {
+  body {
+    min-width: 75%;
+  }
+}
 /* responsive */
 @media (max-width: 768px) {
   body {
@@ -209,7 +239,7 @@ footer div ul {
   .left-menu ul {
     display: none;
     flex-direction: column;
-    background-color: var(--bg-color);
+    background-color: var(--bg);
     border: 2px solid var(--text);
     position: absolute;
     top: 3rem;
@@ -283,3 +313,4 @@ footer div ul {
     gap: 0.5rem;
   }
 }
+

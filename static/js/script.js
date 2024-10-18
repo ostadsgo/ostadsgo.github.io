@@ -37,3 +37,24 @@ document.addEventListener("click", (event) => {
   }
 });
 
+/* Switch theme */
+const switcher = document.querySelector(".switcher");
+const switcherIcon = document.querySelector(".switcher i");
+const body = document.body;
+
+switcher.addEventListener("click", () => {
+  console.log("hello");
+  body.classList.toggle("dark");
+  body.classList.toggle("light");
+  if (body.classList.contains("light")) {
+    // body.classList.remove("light");
+    // body.classList.add("dark");
+    switcherIcon.classList.remove("fa-sun");
+    switcherIcon.classList.add("fa-moon");
+  } else {
+    // body.classList.remove("dark");
+    // body.classList.add("light");
+    switcherIcon.classList.remove("fa-moon");
+    switcherIcon.classList.add("fa-sun");
+  }
+});
