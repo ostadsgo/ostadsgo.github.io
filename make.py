@@ -1,12 +1,24 @@
 # TODO
-# script and css are different for each directory like pages, and posts
-# if base changed I have to recreate all pages so I have to use markdown file
-#     or I have to save main part of pages in separate directory and create
-#     pages again
+# add new link to posts
 
 import os
 
 import markdown
+
+BASE_DIR = os.path.dirname(__file__)
+PAGES = os.path.join(BASE_DIR, "pages")
+MAIN = os.path.join(BASE_DIR, "main")
+INCLUDES = os.path.join(BASE_DIR, "includes")
+POSTS = os.path.join(BASE_DIR, "posts")
+MARKDOWN = os.path.join(BASE_DIR, "markdown")
+
+STATIC = os.path.join(BASE_DIR, "static")
+
+BASE = os.path.join(BASE_DIR, "base")
+BASEFILE = os.path.join(BASE, "base.html")
+
+Markdown = str
+Html = str
 
 
 def readfile(filename: str) -> str:
@@ -34,101 +46,80 @@ def writefile(filename: str, content: str) -> bool:
     return False
 
 
-def md_to_html(md: str) -> str:
+def md_to_html(md: Markdown) -> str:
     return markdown.markdown(md)
 
 
-def make_post(base: str, main: str, **kwargs) -> str:
-    title = kwargs.get("title", "None")
-    css = kwargs.get("css", "None")
-    js = kwargs.get("js", "None")
-    links = readfile("./includes/post_nav.html")
-    main = f"<article class='post'>{main}</article>"
-    return (
-        base.replace("$css", css)
-        .replace("$js", js)
-        .replace("$title", title)
-        .replace("$navlist", links)
-        .replace("$content", main)
-    )
+def make_template(base: Html, **kwargs):
+    return base.format(**kwargs)
 
 
-def make_page(base: str, content: str, **kwargs) -> str:
-    title = kwargs.get("title", "None")
-    css = kwargs.get("css", "None")
-    js = kwargs.get("js", "None")
+def make_post(base: Html, content: Markdown, title: str, filename: str):
+    content = md_to_html(content)
+    content = f"<article class='post'>{content}</article>"
     links = readfile("./includes/nav.html")
-    return (
-        base.replace("$css", css)
-        .replace("$js", js)
-        .replace("$title", title)
-        .replace("$navlist", links)
-        .replace("$content", content)
-    )
+    kwargs = {
+        "title": title,
+        "links": links,
+        "content": content,
+    }
+    html = make_template(base, **kwargs)
+    writefile(filename, html)
+    print(f"Create {filename}")
+
+
+def make_page(base: Html, content: Html, title: str, filename: str):
+    links = readfile("./includes/nav.html")
+    kwargs = {
+        "title": title,
+        "links": links,
+        "content": content,
+    }
+    html = make_template(base, **kwargs)
+    writefile(filename, html)
+    print(filename)
 
 
 def prepare_post():
-    # Values for template
-    basefile = "./pages/base.html"
-    htmlfile = "./posts/first_serious_app.html"
-    mdfile = "./markdown/first_serious_app.md"
-    extra = dict(
-        title="اولین برنامه جدی با پایتون",
-        css="../static/css/style.css",
-        js="../static/js/script.css",
-    )
-
-    # Files
-    base = readfile(basefile)
-    md = readfile(mdfile)
-    main = md_to_html(md)
-
-    # Gernerate new html with required data
-    htmlcontent = make_post(base, main, **extra)
-    print(htmlcontent)
-    writefile(htmlfile, htmlcontent)
+    filename = "post_001"
+    title = "post"
+    post = readfile(os.path.join(MARKDOWN, f"{filename}.md"))
+    base = readfile(BASEFILE)
+    htmlfile = os.path.join(POSTS, f"{filename}.html")
+    make_post(base, post, title, htmlfile)
 
 
 def prepare_page():
-    basefile = "./main/base.html"
-    htmlfile = "./pages/blog.html"
-    extra = dict(
-        title="اولین برنامه جدی با پایتون",
-        css="../static/css/style.css",
-        js="../static/js/script.css",
-    )
-
-    # Files
-    base = readfile(basefile)
-    main = readfile(htmlfile)
-
-    # Gernerate new html with required data
-    htmlcontent = make_page(base, main, **extra)
-    print(htmlcontent)
-    writefile(htmlfile, htmlcontent)
+    filename = "projects.html"
+    title = "Project | پروژه"
+    content_file = os.path.join(MAIN, filename)
+    content = readfile(content_file)
+    base = readfile(BASEFILE)
+    htmlfile = os.path.join(PAGES, f"{filename}")
+    make_page(base, content, title, htmlfile)
 
 
-def add_new_link():
-    mainfiles = os.listdir("./main")
-    base = readfile("./base/base.html")
+def change_main_nav():
+    mainfiles = os.listdir(MAIN)
+    base = readfile(BASEFILE)
     for file in mainfiles:
-        mainfile = f"./main/{file}"
+        mainfile = os.path.join(MAIN, file)
         main = readfile(mainfile)
-        extra = dict(
-            title="اولین برنامه جدی با پایتون",
-            css="../static/css/style.css",
-            js="../static/js/script.css",
-        )
-        html = make_page(base, main, **extra)
-        pagefile = f"./pages/{file}"
-        writefile(pagefile, html)
-        
-
+        pagefile = os.path.join(PAGES, file)
+        make_page(base, main, "Saeed", pagefile)
+    
+    mdfiles = os.listdir(MARKDOWN)
+    for mdfile in mdfiles:
+        md_content = readfile(os.path.join(MARKDOWN, mdfile))
+        post_file = os.path.join(os.path.join(POSTS, mdfile.replace(".md", ".html")))
+        make_post(base, md_content, "post", post_file) 
 
 
 def main():
-    add_new_link()
+    change_main_nav()
+    # prepare_page()
 
 
 if __name__ == "__main__":
     main()
+

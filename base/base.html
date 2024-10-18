@@ -10,9 +10,9 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="$css" />
-    <script src="$js" defer></script>
-    <title>$title</title>
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <script src="../static/js/script.js" defer></script>
+    <title>{title}</title>
   </head>
   <body>
     <header>
@@ -24,7 +24,7 @@
         </ul>
         <div class="left-menu">
           <ul>
-            $navlist
+            {links}
           </ul>
         </div>
         <div class="ham">
@@ -32,7 +32,7 @@
         </div>
       </nav>
     </header>
-    <main>$content</main>
+    <main>{content}</main>
     <footer>
       <h3>Saeed Gholami <i class="fa-regular fa-copyright"></i></h3>
       <div>
