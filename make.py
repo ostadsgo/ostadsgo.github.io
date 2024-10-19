@@ -2,6 +2,7 @@
 # add new link to posts
 
 import os
+import shutil
 
 import markdown
 from bs4 import BeautifulSoup
@@ -60,8 +61,10 @@ def make_post(md_filename: str):
     soup = BeautifulSoup(html, "html.parser")
     post_title = soup.find("h1")
     post_summary = soup.find("p")
-    post_title["id"] = "post_title"
-    post_summary["id"] = "post_summary"
+    if isinstance(post_title, dict):
+        post_title["id"] = "post_title"
+    if isinstance(post_summary, dict):
+        post_summary["id"] = "post_summary"
     template = readfile("./templates/post.html")
     kw = {"post": soup.prettify()}
     post_html = make_template(template, **kw)
@@ -93,16 +96,20 @@ def get_by_id(post: Html, element_id: str):
     return result
 
 
-def make_post_page(md_filename: str):
+def create_post_page(md_filename: str):
     post_content = make_post(md_filename)
     title = get_by_id(post_content, "post_title")
     html_filename = md_filename.replace(".md", ".html")
     create_page(post_content, title, html_filename)
 
 
-def create_post_list_page():
+def get_posts():
     files = os.listdir("./pages/")
     posts = [file for file in files if file.startswith("post")]
+    return posts
+
+def create_post_list_page():
+    posts = get_posts()
     for post in posts:
         post_page = readfile(f"./pages/{post}")
         soup = BeautifulSoup(post_page, "html.parser")
@@ -116,27 +123,31 @@ def create_post_list_page():
 
 
 
-def create_main_nav():
-    mainfiles = os.listdir(MAIN)
-    base = readfile(BASEFILE)
+def create_main_navs():
+    mainfiles = os.listdir("./main")
     for file in mainfiles:
-        mainfile = os.path.join(MAIN, file)
-        main = readfile(mainfile)
-        pagefile = os.path.join(PAGES, file)
-        make_page(base, main, "Saeed", pagefile)
+        mainfile = f"./main/{file}"
+        content = readfile(mainfile)
+        create_page(content, file.replace(".html", ""), file)
 
-    mdfiles = os.listdir(MARKDOWN)
+    mdfiles = os.listdir("./posts")
     for mdfile in mdfiles:
-        md_content = readfile(os.path.join(MARKDOWN, mdfile))
-        post_file = os.path.join(os.path.join(POSTS, mdfile.replace(".md", ".html")))
-        # make_post(base, md_content, "post", post_file)
+        create_post_page(mdfile)
+
+def create_index():
+    index_html = readfile("./main/index.html")
+    create_page(index_html, "سعید غلامی", "index.html")
+    shutil.move("./pages/index.html", "./index.html")
 
 
 def main():
     # change_main_nav()
     # prepare_post("post_001.md")
     # prepare_page()
-    create_post_list_page()
+    # create_post_list_page()
+    # create_main_navs()
+    create_index()
+
 
 
 if __name__ == "__main__":
