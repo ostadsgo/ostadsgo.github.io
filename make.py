@@ -4,6 +4,7 @@
 import os
 
 import markdown
+from bs4 import BeautifulSoup
 
 BASE_DIR = os.path.dirname(__file__)
 PAGES = os.path.join(BASE_DIR, "pages")
@@ -14,8 +15,8 @@ MARKDOWN = os.path.join(BASE_DIR, "markdown")
 
 STATIC = os.path.join(BASE_DIR, "static")
 
-BASE = os.path.join(BASE_DIR, "base")
-BASEFILE = os.path.join(BASE, "base.html")
+TEMPLATES = os.path.join(BASE_DIR, "templates")
+BASEFILE = os.path.join(TEMPLATES, "base.html")
 
 Markdown = str
 Html = str
@@ -37,7 +38,6 @@ def writefile(filename: str, content: str) -> bool:
     try:
         with open(filename, "w", encoding="utf-8") as f:
             f.write(content)
-            print(f"{filename} created")
             return True
     except FileNotFoundError as e:
         print(f"{filename} not found. {e}")
@@ -54,52 +54,69 @@ def make_template(base: Html, **kwargs):
     return base.format(**kwargs)
 
 
-def make_post(base: Html, content: Markdown, title: str, filename: str):
-    content = md_to_html(content)
-    content = f"<article class='post'>{content}</article>"
-    links = readfile("./includes/nav.html")
-    kwargs = {
+def make_post(md_filename: str):
+    md = readfile(f"./posts/{md_filename}")
+    html = md_to_html(md)
+    soup = BeautifulSoup(html, "html.parser")
+    post_title = soup.find("h1")
+    post_summary = soup.find("p")
+    post_title["id"] = "post_title"
+    post_summary["id"] = "post_summary"
+    template = readfile("./templates/post.html")
+    kw = {"post": soup.prettify()}
+    post_html = make_template(template, **kw)
+    return post_html
+
+
+def create_page(content: Html, title: str, filename: str):
+    base = readfile("./templates/base.html")
+    nav = readfile("./includes/nav.html")
+    footer = readfile("./includes/footer.html")
+    kw = {
         "title": title,
-        "links": links,
+        "nav": nav,
         "content": content,
+        "footer": footer,
     }
-    html = make_template(base, **kwargs)
-    writefile(filename, html)
-    print(f"Create {filename}")
+    html = make_template(base, **kw)
+    file_path = f"./pages/{filename}"
+    writefile(file_path, html)
+    print(file_path, "is created")
 
 
-def make_page(base: Html, content: Html, title: str, filename: str):
-    links = readfile("./includes/nav.html")
-    kwargs = {
-        "title": title,
-        "links": links,
-        "content": content,
-    }
-    html = make_template(base, **kwargs)
-    writefile(filename, html)
-    print(filename)
+def get_by_id(post: Html, element_id: str):
+    result = ""
+    soup = BeautifulSoup(post, "html.parser")
+    element = soup.find(id=element_id)
+    if element is not None:
+        result = element.text.strip()
+    return result
 
 
-def prepare_post():
-    filename = "post_001"
-    title = "post"
-    post = readfile(os.path.join(MARKDOWN, f"{filename}.md"))
-    base = readfile(BASEFILE)
-    htmlfile = os.path.join(POSTS, f"{filename}.html")
-    make_post(base, post, title, htmlfile)
+def make_post_page(md_filename: str):
+    post_content = make_post(md_filename)
+    title = get_by_id(post_content, "post_title")
+    html_filename = md_filename.replace(".md", ".html")
+    create_page(post_content, title, html_filename)
 
 
-def prepare_page():
-    filename = "projects.html"
-    title = "Project | پروژه"
-    content_file = os.path.join(MAIN, filename)
-    content = readfile(content_file)
-    base = readfile(BASEFILE)
-    htmlfile = os.path.join(PAGES, f"{filename}")
-    make_page(base, content, title, htmlfile)
+def create_post_list_page():
+    files = os.listdir("./pages/")
+    posts = [file for file in files if file.startswith("post")]
+    for post in posts:
+        post_page = readfile(f"./pages/{post}")
+        soup = BeautifulSoup(post_page, "html.parser")
+        title = soup.find(id="post_title")
+        summary = soup.find(id="post_summary")
+        new_soup = BeautifulSoup("<article class='post'></article>", "html.parser")
+        new_soup.article.append(title)
+        new_soup.article.append(summary)
+        print(new_soup)
+        create_page(new_soup.prettify(), "blog", "blog2.html")
 
 
-def change_main_nav():
+
+def create_main_nav():
     mainfiles = os.listdir(MAIN)
     base = readfile(BASEFILE)
     for file in mainfiles:
@@ -107,19 +124,20 @@ def change_main_nav():
         main = readfile(mainfile)
         pagefile = os.path.join(PAGES, file)
         make_page(base, main, "Saeed", pagefile)
-    
+
     mdfiles = os.listdir(MARKDOWN)
     for mdfile in mdfiles:
         md_content = readfile(os.path.join(MARKDOWN, mdfile))
         post_file = os.path.join(os.path.join(POSTS, mdfile.replace(".md", ".html")))
-        make_post(base, md_content, "post", post_file) 
+        # make_post(base, md_content, "post", post_file)
 
 
 def main():
-    change_main_nav()
+    # change_main_nav()
+    # prepare_post("post_001.md")
     # prepare_page()
+    create_post_list_page()
 
 
 if __name__ == "__main__":
     main()
-
