@@ -61,10 +61,8 @@ def make_post(md_filename: str):
     soup = BeautifulSoup(html, "html.parser")
     post_title = soup.find("h1")
     post_summary = soup.find("p")
-    if isinstance(post_title, dict):
-        post_title["id"] = "post_title"
-    if isinstance(post_summary, dict):
-        post_summary["id"] = "post_summary"
+    post_title["id"] = "post_title"
+    post_summary["id"] = "post_summary"
     template = readfile("./templates/post.html")
     kw = {"post": soup.prettify()}
     post_html = make_template(template, **kw)
@@ -87,7 +85,7 @@ def create_page(content: Html, title: str, filename: str):
     print(file_path, "is created")
 
 
-def get_by_id(post: Html, element_id: str):
+def get_content_by_id(post: Html, element_id: str):
     result = ""
     soup = BeautifulSoup(post, "html.parser")
     element = soup.find(id=element_id)
@@ -96,31 +94,45 @@ def get_by_id(post: Html, element_id: str):
     return result
 
 
+def get_element_by_id(soup, element_id):
+    element = soup.find(id=element_id)
+    if element is not None:
+        return element
+    return ""
+
+
 def create_post_page(md_filename: str):
     post_content = make_post(md_filename)
-    title = get_by_id(post_content, "post_title")
+    title = get_content_by_id(post_content, "post_title")
     html_filename = md_filename.replace(".md", ".html")
     create_page(post_content, title, html_filename)
 
 
 def get_posts():
     files = os.listdir("./pages/")
-    posts = [file for file in files if file.startswith("post")]
+    posts = sorted([file for file in files if file.startswith("post")], reverse=True)
     return posts
+
 
 def create_post_list_page():
     posts = get_posts()
+    blog = readfile("./main/blog.html")
+    blog_soup = BeautifulSoup(blog, "html.parser")
     for post in posts:
+        # to extract title and summary form post
         post_page = readfile(f"./pages/{post}")
         soup = BeautifulSoup(post_page, "html.parser")
-        title = soup.find(id="post_title")
-        summary = soup.find(id="post_summary")
+        title = get_element_by_id(soup, "post_title")
+        summary = get_element_by_id(soup, "post_summary")
+        # create new article for blog 
         new_soup = BeautifulSoup("<article class='post'></article>", "html.parser")
         new_soup.article.append(title)
         new_soup.article.append(summary)
-        print(new_soup)
-        create_page(new_soup.prettify(), "blog", "blog2.html")
+        title.wrap(new_soup.new_tag("a", href=f"./{post}"))
+        blog_soup.section.append(new_soup)
 
+        
+    create_page(blog_soup.prettify(), "blog | بلاگ", "blog2.html")
 
 
 def create_main_navs():
@@ -134,20 +146,23 @@ def create_main_navs():
     for mdfile in mdfiles:
         create_post_page(mdfile)
 
+
 def create_index():
     index_html = readfile("./main/index.html")
     create_page(index_html, "سعید غلامی", "index.html")
     shutil.move("./pages/index.html", "./index.html")
 
 
-def main():
-    # change_main_nav()
-    # prepare_post("post_001.md")
-    # prepare_page()
-    # create_post_list_page()
-    # create_main_navs()
-    create_index()
+def create_all_posts():
+    files = os.listdir("./posts")
+    for file in files:
+        create_post_page(file)
 
+
+def main():
+    # create_all_posts()
+    create_post_list_page()
+    # create_main_navs()
 
 
 if __name__ == "__main__":
