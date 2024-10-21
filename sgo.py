@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /uelsr/bin/python
 
 # TODO: Fix links of recent posts in index.page
 
@@ -90,7 +90,7 @@ class Article(Component):
             post_file_html = post_file.replace(".md", ".html")
             kw = {
                 "post_title": self.title,
-                "post-link": f"./pages/{post_file_html}",
+                "post_link": f"/pages/{post_file_html}",
                 "post_summary": self.summary,
                 "date": post_date,
                 "mins": post_mins,
@@ -153,7 +153,7 @@ class Post(Page):
             soup = BeautifulSoup(content, "html.parser")
             title = soup.find("h1")
             page = Page(title, content)
-            filename = md.replace(".md", ".html")
+            filename = file.replace(".md", ".html")
             page.create(filename)
 
 
@@ -203,18 +203,23 @@ class Command:
     @classmethod
     def build(cls):
         Index()
+        print("Build Index.")
         About()
         Blog()
+        print("Build Blog.")
         Post.all()
+        print("Build all Posts.")
 
     @classmethod
     def update(cls):
+        """ update index recent articles and blog page."""
         pass
 
     @classmethod
     def publish(cls):
         os.system("git add -A")
         os.system("git commit -m 'Update and publish'")
+        os.system("git push")
         print("Published successfuly.")
 
 
@@ -222,7 +227,9 @@ def main():
     if len(sys.argv) < 2:
         print("Usage: sgo [<update>, <publish>]")
         return
-    if sys.argv[1] == "update":
+    if sys.argv[1] == "build":
+        Command.build()
+    elif sys.argv[1] == "update":
         Command.update()
     elif sys.argv[1] == "publish":
         Command.publish()
