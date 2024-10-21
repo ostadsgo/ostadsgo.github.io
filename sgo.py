@@ -7,7 +7,6 @@ import shutil
 import sys
 from pathlib import Path
 
-import bs4
 import markdown
 from bs4 import BeautifulSoup
 
@@ -69,8 +68,8 @@ class Intro(Component):
 class Article(Component):
     def __init__(self, html_file):
         super().__init__(html_file)
-        self.title = ""
-        self.summary = ""
+        self.title = "post title"
+        self.summary = "post summary"
         self.articles = []
         self.make()
 
@@ -84,7 +83,8 @@ class Article(Component):
             p_tags = soup.find_all("p", limit=2)
             post_info = p_tags[0]
             post_summary_tag = p_tags[1]
-            self.title = post_title_tag.text
+            if post_title_tag:
+                self.title = post_title_tag.text
             self.summary = post_summary_tag.text
             post_date, post_mins, post_tag = post_info.text.split("  ")
             post_file_html = post_file.replace(".md", ".html")
@@ -144,6 +144,18 @@ class Post(Page):
         if tag:
             return tag.text
 
+    @classmethod
+    def all(cls):
+        files = os.listdir("./posts")
+        for file in files:
+            md = File.read(f"./posts/{file}")
+            content = markdown.markdown(md)
+            soup = BeautifulSoup(content, "html.parser")
+            title = soup.find("h1")
+            page = Page(title, content)
+            filename = md.replace(".md", ".html")
+            page.create(filename)
+
 
 class About(Page):
     def __init__(self):
@@ -187,207 +199,36 @@ class Index(Page):
         shutil.move(f"./pages/{self.filename}", "./")
 
 
-post = Post("post_001.md")
+class Command:
+    @classmethod
+    def build(cls):
+        Index()
+        About()
+        Blog()
+        Post.all()
+
+    @classmethod
+    def update(cls):
+        pass
+
+    @classmethod
+    def publish(cls):
+        os.system("git add -A")
+        os.system("git commit -m 'Update and publish'")
+        print("Published successfuly.")
 
 
-# class Template:
-#     PATH = File.BASE_DIR / "templates"
-#
-#     @classmethod
-#     def build(cls, template, **kw):
-#         return template.format(**kw)
-#
-#
-# class Component:
-#     def __init__(self):
-#         pass
-#
-#
-# class Page:
-#     PATH = File.BASE_DIR / "pages"
-#
-#     def __init__(self, title: str, content: str):
-#         self.title = title
-#         self.content = content
-#         self.build()
-#
-#     def build(self):
-#         base = File.read("./templates/base.html")
-#         nav = File.read("./includes/nav.html")
-#         footer = File.read("./includes/footer.html")
-#         kw = {
-#             "title": self.title,
-#             "nav": nav,
-#             "content": self.content,
-#             "footer": footer,
-#         }
-#         self.content = Template.build(base, **kw)
-#
-#     def create(self, filename):
-#         File.write(filename, self.content)
-#
-#
-# class Post:
-#     def __init__(self, filename):
-#         self.filename = filename
-#         md = File.read(self.filename)
-#         self.html = self.md_to_html(md)
-#         self.soup = BeautifulSoup(self.html, "html.parser")
-#
-#     @classmethod
-#     def post_files(cls, number=-1):
-#         files = os.listdir("./posts/")
-#         post_files = sorted([file for file in files], reverse=True)
-#         if number > 0:
-#             return post_files[:number]
-#         return post_files
-#
-#     def build(self):
-#         html_filename = self.filename.replace(".md", ".html")
-#         page = Page(self.filename, self.html)
-#         page.build()
-#         page.create(html_filename)
-#
-#     @classmethod
-#     def create_all(cls):
-#         post_files = os.listdir("./posts")
-#         for post_file in post_files:
-#             post = File.read(f"./posts/{post_file}")
-#             html = markdown.markdown(post)
-#             page = Page("title", html)
-#             html_filename = post_file.replace(".md", ".html")
-#             page.create(f"./pages/{html_filename}")
-#
-#     def md_to_html(self, filename):
-#         return markdown.markdown(filename)
-#
-#     def get_tag_by_name(self, name):
-#         tag = self.soup.find(name)
-#         if isinstance(tag, bs4.element.Tag):
-#             return tag
-#
-#     def title(self):
-#         tag = self.get_tag_by_name("h1")
-#         if tag:
-#             return tag.text
-#         return "post title not found"
-#
-#     def summary(self):
-#         tag = self.get_tag_by_name("p")
-#         if tag:
-#             return tag.text
-#         return "post summary not found"
-#
-#     def post_info(self):
-#         tag = self.soup.find(id="post-info")
-#         if tag:
-#             return tag.text
-#         return "post info not found"
-#
-#
-# class Blog:
-#     def post_list(self):
-#         posts = []
-#         # make sure all markdown files converted to html
-#         Post.create_all()
-#         files = os.listdir("./pages")
-#         post_files = [file for file in files if file.startswith("post_")]
-#         for post_file in post_files:
-#             html = File.read(f"./pages/{post_file}")
-#             soup = BeautifulSoup(html, "html.parser")
-#             title = soup.find("h1")
-#             summary = soup.find("p")
-#             post_part = File.read("./templates/post_part.html")
-#             kw = {
-#                 "post_title": title,
-#                 "post_summary": summary,
-#                 "date": "2020/2/12",
-#                 "mins": "3 mins",
-#                 "tag": "python",
-#             }
-#             post = Template.build(post_part, **kw)
-#             posts.append(post)
-#
-#         post_row = "\n".join(posts)
-#         kw = {"recent_posts": post_row}
-#         blog_page = Template.build(post_row, **kw)
-#         page = Page("blog", blog_page)
-#         print(post_row)
-#         # page.create("blog.html")
-#
-#
-# class Index:
-#     TITLE = "Saeed Gholami | سعید غلامی"
-#     FILENAME = "index.html"
-#     PATH = os.path.join("main", FILENAME)
-#     CONTENT = File.read(PATH)
-#
-#     @classmethod
-#     def build(cls):
-#         content = cls.recent_posts()
-#         page = Page(cls.TITLE, content)
-#         page.create(cls.FILENAME)
-#
-#     @classmethod
-#     def recent_posts(cls):
-#         """add 3 most recent posts in the index page."""
-#         posts = []
-#         post_files = Post.post_files(3)
-#         for post_file in post_files:
-#             post = Post(f"./posts/{post_file}")
-#             title = post.title()
-#             summary = post.summary()
-#             post_part = File.read("./templates/post_part.html")
-#             kw = {
-#                 "post_title": title,
-#                 "post_summary": summary,
-#                 "date": "2020/2/12",
-#                 "mins": "3 mins",
-#                 "tag": "python",
-#             }
-#             post = Template.build(post_part, **kw)
-#             posts.append(post)
-#         recent_posts = "\n".join(posts)
-#         kw = {"recent_posts": recent_posts}
-#         index = Template.build(cls.CONTENT, **kw)
-#         return index
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: sgo [<update>, <publish>]")
+        return
+    if sys.argv[1] == "update":
+        Command.update()
+    elif sys.argv[1] == "publish":
+        Command.publish()
+    else:
+        print("Unknown operation.")
 
 
-# class Command:
-#     @classmethod
-#     def update(cls):
-#         """update neccessary parts."""
-#         # post = Post("./posts/post_001.md")
-#         # post.build()
-#         # Post.create_all()
-#         # Index.recent_posts()
-#         # Index.build()
-#         blog = Blog()
-#         blog.post_list()
-#
-#     @classmethod
-#     def build(cls):
-#         """build everything from scratch."""
-#         pass
-#
-#     @classmethod
-#     def publish(cls):
-#         """publish to github page."""
-#         pass
-#
-#
-# def main():
-#     if len(sys.argv) < 2:
-#         print("Usage: sgo [<update>, <publish>]")
-#         return
-#
-#     if sys.argv[1] == "update":
-#         Command.update()
-#     elif sys.argv[1] == "publish":
-#         Command.publish()
-#     else:
-#         print("Unknown operation.")
-#
-#
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
