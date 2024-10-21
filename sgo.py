@@ -1,6 +1,5 @@
 #! /uelsr/bin/python
 
-# TODO: Fix links of recent posts in index.page
 
 import os
 import shutil
@@ -48,21 +47,6 @@ class Component:
     def __init__(self, html_file):
         self.html_file = html_file
         self.html = File.read(str(self.PATH / html_file))
-
-
-class Nav(Component):
-    def __init__(self, html_file):
-        super().__init__(html_file)
-
-
-class Footer(Component):
-    def __init__(self, html_file):
-        super().__init__(html_file)
-
-
-class Intro(Component):
-    def __init__(self, html_file):
-        super().__init__(html_file)
 
 
 class Article(Component):
@@ -113,8 +97,8 @@ class Article(Component):
 class Page:
     def __init__(self, title, content):
         self.title = title
-        self.nav = Nav("nav.html")
-        self.footer = Footer("footer.html")
+        self.nav = Component("nav.html")
+        self.footer = Component("footer.html")
         self.content = content
 
     def create(self, filename):
@@ -185,7 +169,7 @@ class Index(Page):
     filename = "index.html"
 
     def __init__(self):
-        intro = Intro("intro.html")
+        intro = Component("intro.html")
         article = Article("recent_posts.html")
         articles = article.get(number=3)
         recent_articles = article.join(articles)
@@ -213,7 +197,7 @@ class Command:
 
     @classmethod
     def update(cls):
-        """ update index recent articles and blog page."""
+        """update index recent articles and blog page."""
         pass
 
     @classmethod
