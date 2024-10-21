@@ -74,7 +74,7 @@ class Article(Component):
         self.make()
 
     def make(self):
-        post_files = os.listdir("./posts")
+        post_files = sorted(os.listdir("./posts"), reverse=True)
         for post_file in post_files:
             md = File.read(f"./posts/{post_file}")
             html = markdown.markdown(md)
@@ -206,12 +206,10 @@ class Command:
     @classmethod
     def build(cls):
         Index()
-        print("Build Index.")
         About()
         Blog()
-        print("Build Blog.")
         Post.all()
-        print("Build all Posts.")
+        print("Build all pages.")
 
     @classmethod
     def update(cls):
