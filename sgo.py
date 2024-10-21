@@ -151,7 +151,10 @@ class Post(Page):
             md = File.read(f"./posts/{file}")
             content = markdown.markdown(md)
             soup = BeautifulSoup(content, "html.parser")
-            title = soup.find("h1")
+            title_tag = soup.find("h1")
+            title = "Uknown"
+            if title_tag:
+                title = title_tag.text
             page = Page(title, content)
             filename = file.replace(".md", ".html")
             page.create(filename)
