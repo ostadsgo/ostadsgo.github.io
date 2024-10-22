@@ -32,6 +32,7 @@ class File:
         try:
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(content)
+                print(f"{filename} created successfuly.")
                 return True
         except FileNotFoundError as e:
             print(f"{filename} not found. {e}")
@@ -66,7 +67,6 @@ class Article(Template):
 
         date, mins, tag = self.info()
         post_link = f"/pages/{post_name.replace('.md', '.html')}"
-        print(post_link)
         data = {
             "post_link": post_link,
             "post_title": self.title(),
@@ -129,6 +129,7 @@ class Post(Page):
         tag = self.soup.find("h1")
         if tag:
             return tag.text
+        return "title not found"
 
     @classmethod
     def all(cls):
@@ -153,7 +154,6 @@ class Post(Page):
         for file in recent_files:
             article = Article(file)
             articles.append(article.html)
-
         return "\n".join(articles)
 
 
