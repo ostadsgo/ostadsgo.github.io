@@ -41,64 +41,66 @@ class File:
             return False
 
 
-class Component:
-    PATH = File.BASE_DIR / "components"
+class Template:
+    PATH = File.BASE_DIR / "templates"
 
-    def __init__(self, html_file):
-        self.html_file = html_file
-        self.html = File.read(str(self.PATH / html_file))
+    def __init__(self, filename):
+        self.template = File.read(str(self.PATH / filename))
+        self.html = self.template
+
+    def render(self, data):
+        self.html = self.template.format(**data)
+        return self.html
 
 
-class Article(Component):
-    def __init__(self, html_file):
-        super().__init__(html_file)
-        self.title = "post title"
-        self.summary = "post summary"
-        self.articles = []
-        self.make()
+class Article(Template):
+    """Extract article form a post."""
 
-    def make(self):
-        post_files = sorted(os.listdir("./posts"), reverse=True)
-        for post_file in post_files:
-            md = File.read(f"./posts/{post_file}")
-            html = markdown.markdown(md)
-            soup = BeautifulSoup(html, "html.parser")
-            post_title_tag = soup.find("h1")
-            p_tags = soup.find_all("p", limit=2)
-            post_info = p_tags[0]
-            post_summary_tag = p_tags[1]
-            if post_title_tag:
-                self.title = post_title_tag.text
-            self.summary = post_summary_tag.text
-            post_date, post_mins, post_tag = post_info.text.split("  ")
-            post_file_html = post_file.replace(".md", ".html")
-            kw = {
-                "post_title": self.title,
-                "post_link": f"/pages/{post_file_html}",
-                "post_summary": self.summary,
-                "date": post_date,
-                "mins": post_mins,
-                "tag": post_tag,
-            }
-            template = File.read("./templates/post_article.html")
-            article = template.format(**kw)
-            self.articles.append(article)
+    def __init__(self, post_name):
+        filename = "post_article.html"
+        super().__init__(filename)
+        # extrac data from post_name
+        md = File.read(f"./posts/{post_name}")
+        html = markdown.markdown(md)
+        self.soup = BeautifulSoup(html, "html.parser")
 
-    def all(self):
-        return self.articles
+        date, mins, tag = self.info()
+        post_link = f"/pages/{post_name.replace('.md', '.html')}"
+        print(post_link)
+        data = {
+            "post_link": post_link,
+            "post_title": self.title(),
+            "date": date.strip(),
+            "mins": mins.strip(),
+            "tag": tag.strip(),
+            "post_summary": self.summary(),
+        }
+        self.render(data)
 
-    def get(self, number=1):
-        return self.articles[:number]
+    def title(self):
+        tag = self.soup.find("h1")
+        if tag:
+            return tag.text
+        return "Title of the post not found!"
 
-    def join(self, articles):
-        return "\n".join(articles)
+    def info(self):
+        tag = self.soup.find_all("p")
+        if tag:
+            return tag[0].text.split("  ")
+        return "Summary of the post not  found!"
+
+    def summary(self):
+        tag = self.soup.find_all("p")
+        if tag:
+            return tag[1].text
+        return "Summary of the post not  found!"
 
 
 class Page:
     def __init__(self, title, content):
         self.title = title
-        self.nav = Component("nav.html")
-        self.footer = Component("footer.html")
+        self.nav = Template("nav.html")
+        self.footer = Template("footer.html")
         self.content = content
 
     def create(self, filename):
@@ -143,12 +145,23 @@ class Post(Page):
             filename = file.replace(".md", ".html")
             page.create(filename)
 
+    @classmethod
+    def get(cls, number=3):
+        articles = []
+        files = sorted(os.listdir("./posts"), reverse=True)
+        recent_files = files[:number]
+        for file in recent_files:
+            article = Article(file)
+            articles.append(article.html)
+
+        return "\n".join(articles)
+
 
 class About(Page):
     def __init__(self):
         self.title = "درباره من"
-        self.content = File.read("components/about.html")
         self.filename = "about.html"
+        self.content = Template(self.filename).html
         super().__init__(self.title, self.content)
         self.create(self.filename)
 
@@ -157,33 +170,32 @@ class Blog(Page):
     def __init__(self):
         self.title = "Blog | بلاگ"
         self.filename = "blog.html"
-        article = Article(self.filename)
-        articles = article.all()
-        content = article.join(articles)
+        template = Template("blog.html")
+        data = {"articles": Post.get(100)}
+        content = template.render(data)
         super().__init__(self.title, content)
         self.create(self.filename)
 
 
 class Index(Page):
-    title = "سعید غلامی | Saeed Gholami"
-    filename = "index.html"
-
     def __init__(self):
-        intro = Component("intro.html")
-        article = Article("recent_posts.html")
-        articles = article.get(number=3)
-        recent_articles = article.join(articles)
-        template = File.read("./components/recent_posts.html")
-        kw = {"recent_articles": recent_articles}
-        recent_articles = template.format(**kw)
-        content = f"{intro.html}\n{recent_articles}"
+        title = "سعید غلامی | Saeed Gholami"
+        filename = "index.html"
+        intro = Template("intro.html").html
+        # Recent Posts
+        recent_template = Template("recent_posts.html")
+        recent_posts = recent_template.render({"articles": Post.get(3)})
+        # Index
+        template = Template("index.html")
+        data = {"intro": intro, "articles": recent_posts}
+        content = template.render(data)
+        super().__init__(title, content)
 
-        super().__init__(self.title, content)
-        if os.path.exists(self.filename):
-            os.remove(self.filename)
+        if os.path.exists(filename):
+            os.remove(filename)
 
-        self.create(self.filename)
-        shutil.move(f"./pages/{self.filename}", "./")
+        self.create(filename)
+        shutil.move(f"./pages/{filename}", "./")
 
 
 class Command:
@@ -197,7 +209,9 @@ class Command:
 
     @classmethod
     def update(cls):
-        """update index recent articles and blog page."""
+        """build  only dynamic parts .
+        build only markdown that recently created
+        update index recent articles and blog page."""
         pass
 
     @classmethod
