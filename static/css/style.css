@@ -66,10 +66,6 @@ a:hover {
   background: var(--text);
 }
 
-/* .switcher { */
-/*   cursor: pointer; */
-/*   color: var(--text); */
-/* } */
 .switcher i:hover {
   cursor: pointer;
   color: var(--red);
@@ -77,7 +73,7 @@ a:hover {
 
 /* header: navbar */
 header {
-  margin: 3rem 0;
+  margin: 3em 0;
 }
 
 nav {
@@ -92,7 +88,7 @@ nav .logo {
   font-weight: bold;
 }
 
-.left-menu ul {
+.menu ul {
   display: flex;
   gap: 1rem;
 }
@@ -103,7 +99,6 @@ nav .logo {
   font-size: 24px;
 }
 
-
 /* Intro (me) section */
 .intro {
   margin: 6rem 0;
@@ -111,16 +106,39 @@ nav .logo {
   gap: 4rem; /* gap between image and slogan */
 }
 
-.me-pic img {
+.me img {
   width: 142px;
   height: 142px;
   border-radius: 50%;
   border: 5px solid transparent;
   background: linear-gradient(to top, var(--blue), var(--red)) border-box;
+  animation: fadeIn 3s;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .slogan h1 {
   font-size: 2rem;
+  /* For animation */
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 2.5s steps(40, end);
+}
+
+.slogan h2, .social-links {
+  animation: fadeIn 5s;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 .slogan h2 {
@@ -147,15 +165,15 @@ nav .logo {
 }
 
 .post h2 {
-  margin-block: 1.2rem .5rem;
+  margin-block: 2.5rem 0;
 }
 
 .post p {
-  margin-block: .5rem 0;
+  margin-block: .2rem  1rem;
 }
 
 .post-info {
-  padding: 0.5rem 0;
+  /* padding: 0.5rem 0; */
   font-size: 0.9rem;
 }
 
@@ -175,12 +193,13 @@ footer {
   justify-content: space-between;
   flex-direction: row-reverse;
   align-items: center;
-  margin: 3rem 0 1rem 0 ;
+  margin-top: 3em;
+  padding-bottom: 2em;
 }
 
 footer h3 {
   color: var(--gray);
-  font-size: 1rem;
+  font-size: 0.85rem;
 }
 
 /* links in footer */
@@ -197,20 +216,14 @@ footer div ul {
   margin: 3rem 0;
 }
 
-.about h2:nth-child(n+2) {
+.about h2:nth-child(n + 2) {
   margin-top: 1.5rem;
 }
 
 /* Blog */
 .blog {
-
 }
 
-@media (max-width: 1368px) {
-  body {
-    min-width: 65%;
-  }
-}
 
 @media (max-width: 1024px) {
   body {
@@ -236,7 +249,7 @@ footer div ul {
     font-size: 1.2rem;
   }
 
-  .left-menu ul {
+  .menu ul {
     display: none;
     flex-direction: column;
     background-color: var(--bg);
@@ -252,16 +265,16 @@ footer div ul {
     opacity: 0.85;
   }
 
-  .left-menu ul.active {
+  .menu ul.active {
     display: block;
     height: 150px;
   }
 
-  .left-menu ul.active li {
+  .menu ul.active li {
     padding: 0.5rem 0;
   }
 
-  .left-menu ul.active li a {
+  .menu ul.active li a {
     font-size: 1rem;
     font-weight: bold;
   }
@@ -288,14 +301,13 @@ footer div ul {
     opacity: 1; /* Fade-in the bars icon */
   }
 
-
   .intro {
     flex-direction: column;
     margin: 3rem 0;
     gap: 1rem; /* gap between image and slogan */
   }
 
-  .intro .me-pic {
+  .intro .me {
     display: flex;
     justify-content: center;
   }
@@ -313,4 +325,3 @@ footer div ul {
     gap: 0.5rem;
   }
 }
-

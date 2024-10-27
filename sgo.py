@@ -45,11 +45,11 @@ class File:
 class Template:
     PATH = File.BASE_DIR / "templates"
 
-    def __init__(self, filename):
+    def __init__(self, filename: str):
         self.template = File.read(str(self.PATH / filename))
         self.html = self.template
 
-    def render(self, data):
+    def render(self, data: dict[str, str]):
         self.html = self.template.format(**data)
         return self.html
 
@@ -120,13 +120,14 @@ class Post(Page):
         self.filename = md.replace(".md", ".html")
         self.md = File.read(f"./posts/{md}")
         content = markdown.markdown(self.md)
-        self.soup = BeautifulSoup(content, "html.parser")
-        title = self.title()
+        title = Post.title(content)
         super().__init__(title, content)
         self.create(self.filename)
 
-    def title(self):
-        tag = self.soup.find("h1")
+    @classmethod
+    def title(cls, content):
+        soup = BeautifulSoup(content, "html.parser")
+        tag = soup.find("h1")
         if tag:
             return tag.text
         return "title not found"
@@ -137,11 +138,10 @@ class Post(Page):
         for file in files:
             md = File.read(f"./posts/{file}")
             content = markdown.markdown(md)
-            soup = BeautifulSoup(content, "html.parser")
-            title_tag = soup.find("h1")
-            title = "Uknown"
-            if title_tag:
-                title = title_tag.text
+            template = Template("post_detail.html")
+            data = {"post_body": content}
+            content = template.render(data)
+            title = Post.title(content)
             page = Page(title, content)
             filename = file.replace(".md", ".html")
             page.create(filename)

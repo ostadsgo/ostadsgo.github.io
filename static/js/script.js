@@ -1,6 +1,6 @@
 // toggle hamberguer menu
 const ham = document.querySelector(".ham");
-const leftMenu = document.querySelector(".left-menu ul");
+const leftMenu = document.querySelector(".menu ul");
 const hamIcon = document.querySelector(".ham i");
 
 ham.addEventListener("click", () => {
