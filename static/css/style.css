@@ -13,6 +13,7 @@
 
 :root {
   --bg: #080808;
+  --black: #121212;
   --text: #cdcdcd;
   --blue: #708090;
   --red: #b6927b;
@@ -42,17 +43,27 @@ p {
   line-height: 2;
 }
 
+ul {
+  list-style-type: none;
+}
+
 a {
   text-decoration: none;
   color: var(--blue);
 }
 
-ul {
-  list-style-type: none;
-}
-
 a:hover {
   color: var(--red);
+}
+
+.post blockquote {
+  border-right: 5px solid var(--gray);
+  background-color: var(--black);
+  padding: 0.5rem 1rem;
+  > p {
+    margin: 0;
+  }
+  border-radius: 5px;
 }
 
 /* Dark mode */
@@ -61,9 +72,14 @@ a:hover {
   background: var(--bg);
 }
 
+/* Light theme */
 .light {
   color: var(--bg);
   background: var(--text);
+  blockquote {
+    background-color: var(--gray);
+    border-right: 5px solid var(--black);
+  }
 }
 
 .switcher i:hover {
@@ -116,8 +132,12 @@ nav .logo {
 }
 
 @keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .slogan h1 {
@@ -128,7 +148,8 @@ nav .logo {
   animation: typing 2.5s steps(40, end);
 }
 
-.slogan h2, .social-links {
+.slogan h2,
+.social-links {
   animation: fadeIn 5s;
 }
 
@@ -169,7 +190,35 @@ nav .logo {
 }
 
 .post p {
-  margin-block: .2rem  1rem;
+  margin-block: 0.2em 1em;
+}
+
+.post ul {
+  list-style-type: disc;
+  margin-right: 2em;
+  margin-block: 0.2em 1em;
+}
+
+/* p that has a ul after */
+.post p:has(+ ul) {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.post img {
+  width: 80%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  margin-block: 2em 1em;
+  border-radius: 5px;
+}
+
+/* img caption */
+.post p:has(img) + p {
+  color: var(--gray);
+  text-align: center;
+  font-size: 0.9rem;
 }
 
 .post-info {
@@ -223,7 +272,6 @@ footer div ul {
 /* Blog */
 .blog {
 }
-
 
 @media (max-width: 1024px) {
   body {

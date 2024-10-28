@@ -86,7 +86,7 @@ class Article(Template):
     def info(self):
         tag = self.soup.find_all("p")
         if tag:
-            return tag[0].text.split("  ")
+            return tag[0].text.split("•")
         return "Summary of the post not  found!"
 
     def summary(self):
