@@ -13,12 +13,11 @@
 
 :root {
   --bg: #080808;
-  --black: #121212;
+  --black: #212121;
   --text: #cdcdcd;
   --blue: #708090;
   --red: #b6927b;
-  --gray: #707070;
-  --yellow: #f4bf75;
+  --gray: #909090;
   --mobile-gap: 2rem;
   --mobile-margin: 1rem;
   --font: IranSans;
@@ -60,10 +59,17 @@ a:hover {
   border-right: 5px solid var(--gray);
   background-color: var(--black);
   padding: 0.5rem 1rem;
+  border-radius: 5px;
   > p {
     margin: 0;
   }
-  border-radius: 5px;
+}
+
+code {
+  background-color: var(--black);
+  padding-inline: .5em;
+  color: var(--gray);
+  border-radius: 2px;
 }
 
 /* Dark mode */
@@ -79,6 +85,10 @@ a:hover {
   blockquote {
     background-color: var(--gray);
     border-right: 5px solid var(--black);
+  }
+  code {
+    background-color: var(--gray);
+    color: var(--bg);
   }
 }
 
