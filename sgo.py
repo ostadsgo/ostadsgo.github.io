@@ -42,7 +42,7 @@ class File:
             return False
 
 
-class Template:
+class Component:
     PATH = File.BASE_DIR / "templates"
 
     def __init__(self, filename: str):
@@ -54,53 +54,11 @@ class Template:
         return self.html
 
 
-class Article(Template):
-    """Extract article form a post."""
-
-    def __init__(self, post_name):
-        filename = "post_article.html"
-        super().__init__(filename)
-        # extrac data from post_name
-        md = File.read(f"./posts/{post_name}")
-        html = markdown.markdown(md)
-        self.soup = BeautifulSoup(html, "html.parser")
-
-        date, mins, tag = self.info()
-        post_link = f"/pages/{post_name.replace('.md', '.html')}"
-        data = {
-            "post_link": post_link,
-            "post_title": self.title(),
-            "date": date.strip(),
-            "mins": mins.strip(),
-            "tag": tag.strip(),
-            "post_summary": self.summary(),
-        }
-        self.render(data)
-
-    def title(self):
-        tag = self.soup.find("h1")
-        if tag:
-            return tag.text
-        return "Title of the post not found!"
-
-    def info(self):
-        tag = self.soup.find_all("p")
-        if tag:
-            return tag[0].text.split("•")
-        return "Summary of the post not  found!"
-
-    def summary(self):
-        tag = self.soup.find_all("p")
-        if tag:
-            return tag[1].text
-        return "Summary of the post not  found!"
-
-
 class Page:
     def __init__(self, title, content):
         self.title = title
-        self.nav = Template("nav.html")
-        self.footer = Template("footer.html")
+        self.nav = Component("nav.html")
+        self.footer = Component("footer.html")
         self.content = content
 
     def create(self, filename):
@@ -115,79 +73,129 @@ class Page:
         File.write(f"./pages/{filename}", self.content)
 
 
-class Post(Page):
-    def __init__(self, md):
-        self.filename = md.replace(".md", ".html")
-        self.md = File.read(f"./posts/{md}")
-        content = markdown.markdown(self.md)
-        title = Post.title(content)
-        super().__init__(title, content)
-        self.create(self.filename)
+class Post:
+    def __init__(self, post_name):
+        md = File.read(f"./posts/{post_name}")
+        html = markdown.markdown(md)
+        self.soup = BeautifulSoup(html, "html.parser")
+        self.link = f"/pages/{post_name.replace('.md', '.html')}"
+        self.date, self.mins, self.tag = self.get_info()
+        self.title = self.get_title()
+        self.summary = self.get_summary()
 
-    @classmethod
-    def title(cls, content):
-        soup = BeautifulSoup(content, "html.parser")
-        tag = soup.find("h1")
+    def get_title(self):
+        tag = self.soup.find("h1")
         if tag:
-            return tag.text
-        return "title not found"
+            return tag.text.strip()
+        return "Title of the post not found!"
+
+    def get_info(self):
+        tag = self.soup.find_all("p")
+        if tag:
+            return tag[0].text.split("•")
+        return "Summary of the post not  found!"
+
+    def get_summary(self):
+        tag = self.soup.find_all("p")
+        if tag:
+            return tag[1].text.strip()
+        return "Summary of the post not  found!"
+
+
+class PostHeader(Component):
+    def __init__(self, post_name):
+        filename = "post_header.html"
+        super().__init__(filename)
+        post = Post(post_name)
+        data = {
+            "post_link": post.link,
+            "post_title": post.title,
+            "date": post.date,
+            "mins": post.mins,
+            "tag": post.tag,
+        }
+        self.render(data)
 
     @classmethod
     def all(cls):
-        files = os.listdir("./posts")
+        articles = []
+        files = sorted(os.listdir("./posts"), reverse=True)
         for file in files:
-            md = File.read(f"./posts/{file}")
-            content = markdown.markdown(md)
-            template = Template("post_detail.html")
-            data = {"post_body": content}
-            content = template.render(data)
-            title = Post.title(content)
-            page = Page(title, content)
-            filename = file.replace(".md", ".html")
-            page.create(filename)
+            article = PostHeader(file)
+            articles.append(article.html)
+        return "\n".join(articles)
+
+
+class PostSummary(Component):
+    def __init__(self, post_name):
+        filename = "post_summary.html"
+        super().__init__(filename)
+        post = Post(post_name)
+        data = {
+            "post_link": post.link,
+            "post_title": post.title,
+            "date": post.date,
+            "mins": post.mins,
+            "tag": post.tag,
+            "post_summary": post.summary,
+        }
+        self.render(data)
 
     @classmethod
     def get(cls, number=3):
         articles = []
         files = sorted(os.listdir("./posts"), reverse=True)
-        recent_files = files[:number]
-        for file in recent_files:
-            article = Article(file)
+        for file in files[:number]:
+            article = PostSummary(file)
             articles.append(article.html)
         return "\n".join(articles)
 
 
-class About(Page):
+class PostPage(Page):
+    def __init__(self, md):
+        filename = md.replace(".md", ".html")
+        post = Post(md)
+        md = File.read(f"./posts/{md}")
+        html = markdown.markdown(md)
+        template = Component("post.html")
+        data = {"post": html}
+        content = template.render(data)
+        super().__init__(post.title, content)
+        self.create(filename)
+
+    @classmethod
+    def create_all(cls):
+        files = os.listdir("./posts")
+        for file in files:
+            PostPage(file)
+
+
+class AboutPage(Page):
     def __init__(self):
         self.title = "درباره من"
         self.filename = "about.html"
-        self.content = Template(self.filename).html
+        self.content = Component(self.filename).html
         super().__init__(self.title, self.content)
         self.create(self.filename)
 
 
-class Blog(Page):
+class BlogPage(Page):
     def __init__(self):
-        self.title = "Blog | بلاگ"
+        self.title = "بلاگ"
         self.filename = "blog.html"
-        template = Template("blog.html")
-        data = {"articles": Post.get(100)}
+        template = Component(self.filename)
+        data = {"articles": PostHeader.all()}
         content = template.render(data)
         super().__init__(self.title, content)
         self.create(self.filename)
 
 
-class Index(Page):
+class IndexPage(Page):
     def __init__(self):
         title = "سعید غلامی | Saeed Gholami"
         filename = "index.html"
-        intro = Template("intro.html").html
-        # Recent Posts
-        recent_template = Template("recent_posts.html")
-        recent_posts = recent_template.render({"articles": Post.get(3)})
-        # Index
-        template = Template("index.html")
-        data = {"intro": intro, "articles": recent_posts}
+        template = Component("index.html")
+        data = {"articles": PostSummary.get(3)}
         content = template.render(data)
         super().__init__(title, content)
 
@@ -201,10 +209,10 @@ class Index(Page):
 class Command:
     @classmethod
     def build(cls):
-        Index()
-        About()
-        Blog()
-        Post.all()
+        IndexPage()
+        AboutPage()
+        BlogPage()
+        PostPage.create_all()
         print("Build all pages.")
 
     @classmethod

@@ -9,15 +9,16 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* outline: 1px solid green; */
 }
 
 :root {
-  --bg: #080808;
-  --black: #212121;
-  --text: #cdcdcd;
-  --blue: #708090;
-  --red: #b6927b;
-  --gray: #909090;
+  --bg-color: hsl(0, 0%, 3%);
+  --black-color: hsl(0, 0%, 13%);
+  --text-color: #cdcdcd;
+  --primary-color: #708090;
+  --secondary-color: #b6927b;
+  --gray-color: #909090;
   --mobile-gap: 2rem;
   --mobile-margin: 1rem;
   --font: IranSans;
@@ -26,8 +27,8 @@
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--text);
+  background-color: var(--bg-color);
+  color: var(--text-color);
   font-family: var(--font);
   max-width: 50%;
   height: 100vh;
@@ -37,7 +38,9 @@ body {
   grid-template-columns: 1fr;
 }
 
+/* ------------- */
 /* global */
+/* ------------- */
 p {
   line-height: 2;
 }
@@ -48,53 +51,58 @@ ul {
 
 a {
   text-decoration: none;
-  color: var(--blue);
+  color: var(--primary-color);
 }
 
 a:hover {
-  color: var(--red);
+  color: var(--secondary-color);
+}
+
+img {
+  display: block;
 }
 
 .post blockquote {
-  border-right: 5px solid var(--gray);
-  background-color: var(--black);
-  padding: 0.5rem 1rem;
+  border-right: 5px solid var(--gray-color);
+  background-color: var(--black-color);
+  padding: 0.5em 1em;
   border-radius: 5px;
+  margin-block: 1em;
   > p {
     margin: 0;
   }
 }
 
 code {
-  background-color: var(--black);
-  padding-inline: .5em;
-  color: var(--gray);
+  background-color: var(--black-color);
+  padding-inline: 0.5em;
+  color: var(--gray-color);
   border-radius: 2px;
 }
 
 /* Dark mode */
 .dark {
-  color: var(--text);
-  background: var(--bg);
+  color: var(--text-color);
+  background: var(--bg-color);
 }
 
 /* Light theme */
 .light {
-  color: var(--bg);
-  background: var(--text);
+  color: var(--bg-color);
+  background: var(--text-color);
   blockquote {
-    background-color: var(--gray);
-    border-right: 5px solid var(--black);
+    background-color: var(--gray-color);
+    border-right: 5px solid var(--black-color);
   }
   code {
-    background-color: var(--gray);
-    color: var(--bg);
+    background-color: var(--gray-color);
+    color: var(--bg-color);
   }
 }
 
 .switcher i:hover {
   cursor: pointer;
-  color: var(--red);
+  color: var(--secondary-color);
 }
 
 /* header: navbar */
@@ -127,9 +135,13 @@ nav .logo {
 
 /* Intro (me) section */
 .intro {
-  margin: 6rem 0;
+  margin: 6em 0;
   display: flex;
-  gap: 4rem; /* gap between image and slogan */
+  border: 1px solid blue;
+}
+
+.slogan {
+  margin: 0 auto;
 }
 
 .me img {
@@ -137,7 +149,12 @@ nav .logo {
   height: 142px;
   border-radius: 50%;
   border: 5px solid transparent;
-  background: linear-gradient(to top, var(--blue), var(--red)) border-box;
+  background: linear-gradient(
+      to top,
+      var(--primary-color),
+      var(--secondary-color)
+    )
+    border-box;
   animation: fadeIn 3s;
 }
 
@@ -175,28 +192,49 @@ nav .logo {
 .slogan h2 {
   font-size: 1.2rem;
   font-weight: 500;
-  color: var(--gray);
-  margin-top: 0.5rem;
+  color: var(--gray-color);
+  margin-top: 0.5em;
 }
 
 .social-links ul {
   display: flex;
-  gap: 2rem; /* gap between social links */
-  margin-top: 1rem; /* margin between social links and slogan */
+  gap: 2em; /* gap between social links */
+  margin-top: 1em; /* margin between social links and slogan */
 }
 
-/* recent posts */
+/* Reading progressbar */
+.progress-container {
+    width: 100%;
+    height: 5px;
+    background: var(--bg-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--secondary-color);
+    width: 0%;
+}
+
+/* Post */
+.recent-posts h2 {
+  margin-bottom: 0.5em;
+}
+
 .post-list {
-  margin-top: 0.5rem;
+  margin-top: 0.5em;
 }
 
 /* apply only from second child */
 .post:nth-child(n + 2) {
-  margin-top: 2rem; /* margin between each post */
+  margin-top: 2em; /* margin between each post */
 }
 
 .post h2 {
-  margin-block: 2.5rem 0;
+  /* margin-block: 2.5em 0; */
 }
 
 .post p {
@@ -216,9 +254,8 @@ nav .logo {
 }
 
 .post img {
-  width: 80%;
+  max-width: 100%;
   height: auto;
-  display: block;
   margin: 0 auto;
   margin-block: 2em 1em;
   border-radius: 5px;
@@ -226,13 +263,12 @@ nav .logo {
 
 /* img caption */
 .post p:has(img) + p {
-  color: var(--gray);
+  color: var(--gray-color);
   text-align: center;
   font-size: 0.9rem;
 }
 
 .post-info {
-  /* padding: 0.5rem 0; */
   font-size: 0.9rem;
 }
 
@@ -241,7 +277,7 @@ nav .logo {
 }
 
 .post-info ul li {
-  color: var(--gray);
+  color: var(--gray-color);
   display: inline;
   padding-left: 1rem;
 }
@@ -249,6 +285,7 @@ nav .logo {
 .post-info ul li i {
   padding-left: 5px;
 }
+
 
 /* footer */
 footer {
@@ -261,7 +298,7 @@ footer {
 }
 
 footer h3 {
-  color: var(--gray);
+  color: var(--gray-color);
   font-size: 0.85rem;
 }
 
@@ -314,8 +351,8 @@ footer div ul {
   .menu ul {
     display: none;
     flex-direction: column;
-    background-color: var(--bg);
-    border: 2px solid var(--text);
+    background-color: var(--bg-color);
+    border: 2px solid var(--text-color);
     position: absolute;
     top: 3rem;
     left: 50px;
