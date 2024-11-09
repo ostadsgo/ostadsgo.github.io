@@ -59,6 +59,7 @@ switcher.addEventListener("click", () => {
 
 /* Update progressbar */
 
+// Script to handle scroll progress
 window.onscroll = function () {
   updateProgressBar();
 };
@@ -70,6 +71,8 @@ function updateProgressBar() {
     document.documentElement.scrollHeight -
     document.documentElement.clientHeight;
   const scrolled = (scrollTop / scrollHeight) * 100;
-
-  document.getElementById("progressBar").style.width = scrolled + "%";
+  const progressBar = document.getElementById("progressBar");
+  if (progressBar != null) {
+    document.getElementById("progressBar").style.width = scrolled + "%";
+  }
 }
