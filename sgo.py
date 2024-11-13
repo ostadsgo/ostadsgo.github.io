@@ -19,7 +19,7 @@ class File:
     def read(cls, filename: str) -> str:
         content = ""
         try:
-            with open(filename, "r") as f:
+            with open(filename, "r", encoding="utf-8") as f:
                 content = f.read()
         except FileNotFoundError as e:
             print(f"{filename} not found. {e}")
@@ -169,6 +169,22 @@ class PostPage(Page):
         for file in files:
             PostPage(file)
 
+    @classmethod
+    def create_last(cls):
+        posts = os.listdir("./posts")
+        pages = os.listdir("./pages")
+
+        for md_file in posts:
+            filename = md_file.split(".")[0]
+            if filename not in pages:
+                PostPage(md_file)
+                print(f"{md_file} created as page.")
+
+    @classmethod
+    def create_by_name(cls, name):
+        PostPage(name)
+        print(f"{name} created as page.")
+
 
 class AboutPage(Page):
     def __init__(self):
@@ -217,10 +233,9 @@ class Command:
 
     @classmethod
     def update(cls):
-        """build  only dynamic parts .
-        build only markdown that recently created
-        update index recent articles and blog page."""
-        pass
+        """build  only dynamic parts . and post that not created."""
+        IndexPage()
+        PostPage.create_last()
 
     @classmethod
     def publish(cls):
