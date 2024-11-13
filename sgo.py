@@ -240,7 +240,7 @@ class Command:
     @classmethod
     def publish(cls):
         os.system("git add -A")
-        os.system("git commit -m 'Update and publish'")
+        os.system('git commit -m "Update and publish"')
         os.system("git push")
         print("Published successfuly.")
 
