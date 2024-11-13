@@ -68,7 +68,8 @@ img {
   padding: 0.5em 1em;
   border-radius: 5px;
   margin-block: 1em;
-  > p {
+
+  >p {
     margin: 0;
   }
 }
@@ -90,17 +91,19 @@ code {
 .light {
   color: var(--bg-color);
   background: var(--text-color);
+
   blockquote {
     background-color: var(--gray-color);
     border-right: 5px solid var(--black-color);
   }
+
   code {
     background-color: var(--gray-color);
     color: var(--bg-color);
   }
 }
 
-.switcher i:hover {
+.switcher i {
   cursor: pointer;
   color: var(--secondary-color);
 }
@@ -128,7 +131,8 @@ nav .logo {
 }
 
 .ham {
-  display: none; /* Hidden by default (for desktop) */
+  display: none;
+  /* Hidden by default (for desktop) */
   cursor: pointer;
   font-size: 24px;
 }
@@ -148,12 +152,9 @@ nav .logo {
   height: 142px;
   border-radius: 50%;
   border: 5px solid transparent;
-  background: linear-gradient(
-      to top,
+  background: linear-gradient(to top,
       var(--primary-color),
-      var(--secondary-color)
-    )
-    border-box;
+      var(--secondary-color)) border-box;
   animation: fadeIn 3s;
 }
 
@@ -161,6 +162,7 @@ nav .logo {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -183,6 +185,7 @@ nav .logo {
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
@@ -197,25 +200,27 @@ nav .logo {
 
 .social-links ul {
   display: flex;
-  gap: 2em; /* gap between social links */
-  margin-top: 1em; /* margin between social links and slogan */
+  gap: 2em;
+  /* gap between social links */
+  margin-top: 1em;
+  /* margin between social links and slogan */
 }
 
 /* Reading progressbar */
 .progress-container {
-    width: 100%;
-    height: 5px;
-    background: var(--bg-color);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 99;
+  width: 100%;
+  height: 5px;
+  background: var(--bg-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
 }
 
 .progress-bar {
-    height: 100%;
-    background: var(--secondary-color);
-    width: 0%;
+  height: 100%;
+  background: var(--secondary-color);
+  width: 0%;
 }
 
 /* Post */
@@ -229,7 +234,8 @@ nav .logo {
 
 /* apply only from second child */
 .post:nth-child(n + 2) {
-  margin-top: 2em; /* margin between each post */
+  margin-top: 2em;
+  /* margin between each post */
 }
 
 .post h2 {
@@ -261,7 +267,7 @@ nav .logo {
 }
 
 /* img caption */
-.post p:has(img) + p {
+.post p:has(img)+p {
   color: var(--gray-color);
   text-align: center;
   font-size: 0.9rem;
@@ -320,14 +326,14 @@ footer div ul {
 }
 
 /* Blog */
-.blog {
-}
+.blog {}
 
 @media (max-width: 1024px) {
   body {
     min-width: 75%;
   }
 }
+
 /* responsive */
 @media (max-width: 768px) {
   body {
@@ -390,19 +396,24 @@ footer div ul {
 
   /* Rotate and fade effect for icons */
   .rotate-in {
-    transform: rotate(90deg); /* Rotating 90 degrees when cross icon shows */
-    opacity: 0; /* Initial fade-out */
+    transform: rotate(90deg);
+    /* Rotating 90 degrees when cross icon shows */
+    opacity: 0;
+    /* Initial fade-out */
   }
 
   .rotate-out {
-    transform: rotate(0deg); /* Reset rotation to original */
-    opacity: 1; /* Fade-in the bars icon */
+    transform: rotate(0deg);
+    /* Reset rotation to original */
+    opacity: 1;
+    /* Fade-in the bars icon */
   }
 
   .intro {
     flex-direction: column;
     margin: 3rem 0;
-    gap: 1rem; /* gap between image and slogan */
+    gap: 1rem;
+    /* gap between image and slogan */
   }
 
   .intro .me {
