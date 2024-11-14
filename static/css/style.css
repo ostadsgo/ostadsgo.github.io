@@ -13,7 +13,7 @@
 }
 
 :root {
-  --bg-color: hsl(0, 0%, 3%);
+  --bg-color: #080808;
   --black-color: hsl(0, 0%, 13%);
   --text-color: #cdcdcd;
   --primary-color: #708090;
@@ -30,19 +30,19 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: var(--font);
-  max-width: 50%;
-  height: 100vh;
-  margin: 0 auto;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr;
+  min-height: 100vh;
+  max-width: 40em;
+  margin: 3em auto;
+  display: flex;
+  flex-direction: column;
+
 }
 
 /* ------------- */
 /* global */
 /* ------------- */
 p {
-  line-height: 2;
+  line-height: 1.7;
 }
 
 ul {
@@ -60,6 +60,18 @@ a:hover {
 
 img {
   display: block;
+}
+
+article {
+  max-width: 80ch;
+}
+
+main {
+  flex: 1;
+}
+
+header {
+  margin-bottom: 3em;
 }
 
 .post blockquote {
@@ -108,10 +120,6 @@ code {
   color: var(--secondary-color);
 }
 
-/* header: navbar */
-header {
-  margin: 3em 0;
-}
 
 nav {
   display: flex;
@@ -139,7 +147,8 @@ nav .logo {
 
 /* Intro (me) section */
 .intro {
-  margin: 6em 0;
+  margin-top: 3em;
+  margin-bottom: 6em;
   display: flex;
 }
 
@@ -223,27 +232,21 @@ nav .logo {
   width: 0%;
 }
 
-/* Post */
-.recent-posts h2 {
-  margin-bottom: 0.5em;
+
+.recent-posts-header,
+.blog-header {
+  margin-bottom: .5em;
 }
 
-.post-list {
-  margin-top: 0.5em;
-}
-
-/* apply only from second child */
-.post:nth-child(n + 2) {
-  margin-top: 2em;
-  /* margin between each post */
-}
-
-.post h2 {
-  /* margin-block: 2.5em 0; */
+.recent-posts .post,
+.blog .post {
+  margin-bottom: 2em;
 }
 
 .post p {
   margin-block: 0.2em 1em;
+  text-align: justify;
+
 }
 
 .post ul {
@@ -284,13 +287,12 @@ nav .logo {
 .post-info ul li {
   color: var(--gray-color);
   display: inline;
-  padding-left: 1rem;
+  padding-left: 1em;
 }
 
 .post-info ul li i {
   padding-left: 5px;
 }
-
 
 /* footer */
 footer {
@@ -299,7 +301,6 @@ footer {
   flex-direction: row-reverse;
   align-items: center;
   margin-top: 3em;
-  padding-bottom: 2em;
 }
 
 footer h3 {
@@ -316,33 +317,10 @@ footer div ul {
   gap: 1rem;
 }
 
-/* About me */
-.about {
-  margin: 3rem 0;
-}
-
-.about h2:nth-child(n + 2) {
-  margin-top: 1.5rem;
-}
-
-/* Blog */
-.blog {}
-
-@media (max-width: 1024px) {
-  body {
-    min-width: 75%;
-  }
-}
-
 /* responsive */
 @media (max-width: 768px) {
   body {
-    min-width: 85%;
-    margin: var(--mobile-margin) auto;
-  }
-
-  header {
-    margin: var(--mobile-margin) 0;
+    margin: 1.6em;
   }
 
   nav ul li a {
@@ -350,7 +328,8 @@ footer div ul {
   }
 
   .logo a {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: bold;
   }
 
   .menu ul {
@@ -361,8 +340,7 @@ footer div ul {
     position: absolute;
     top: 3rem;
     left: 50px;
-    width: 100%;
-    max-width: 150px;
+    min-width: 150px;
     padding: 0.75rem;
     border-radius: 0.5rem;
     transition: all 0.4s ease;
@@ -411,9 +389,10 @@ footer div ul {
 
   .intro {
     flex-direction: column;
-    margin: 3rem 0;
-    gap: 1rem;
-    /* gap between image and slogan */
+    /* gap between img and slogan */
+    gap: .5em;
+    margin-top: 0;
+    margin-bottom: 3em;
   }
 
   .intro .me {
@@ -433,4 +412,13 @@ footer div ul {
     flex-direction: column;
     gap: 0.5rem;
   }
+
+  .post-title {
+    font-size: 1.4rem;
+  }
+
+  .post-info {
+    font-size: .9rem;
+  }
+
 }
