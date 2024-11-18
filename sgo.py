@@ -235,6 +235,7 @@ class Command:
     def update(cls):
         """build  only dynamic parts . and post that not created."""
         IndexPage()
+        BlogPage()
         PostPage.create_last()
 
     @classmethod
