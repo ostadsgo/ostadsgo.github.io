@@ -232,15 +232,9 @@ nav .logo {
   width: 0%;
 }
 
-
 .recent-posts-header,
 .blog-header {
   margin-bottom: .5em;
-}
-
-.recent-posts .post,
-.blog .post {
-  margin-bottom: 2em;
 }
 
 .post p {
@@ -391,7 +385,6 @@ footer div ul {
     flex-direction: column;
     /* gap between img and slogan */
     gap: .5em;
-    margin-top: 0;
     margin-bottom: 3em;
   }
 
