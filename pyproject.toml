@@ -1,17 +1,11 @@
-[tool.poetry]
+[project]
 name = "ostadsgo-github-io"
 version = "0.1.0"
-description = ""
-authors = ["Saeed Gholami <saeed.ghollami@gmail.com>"]
+description = "Add your description here"
 readme = "README.md"
-packages = [{include = "ostadsgo"}]
-
-[tool.poetry.dependencies]
-python = "^3.12"
-markdown = "^3.7"
-beautifulsoup4 = "^4.12.3"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.13.4",
+    "markdown>=3.8",
+    "pygments>=2.19.1",
+]

@@ -8,6 +8,7 @@ from pathlib import Path
 
 import markdown
 from bs4 import BeautifulSoup
+from pygments.formatters import HtmlFormatter
 
 
 class File:
@@ -41,6 +42,10 @@ class File:
         finally:
             return False
 
+# Create styles for code highlight
+formatter = HtmlFormatter(style='github-dark')
+with open('static/css/pygments.css', 'w') as f:
+    f.write(formatter.get_style_defs('.codehilite')) 
 
 class Component:
     PATH = File.BASE_DIR / "templates"
@@ -76,7 +81,7 @@ class Page:
 class Post:
     def __init__(self, post_name):
         md = File.read(f"./posts/{post_name}")
-        html = markdown.markdown(md)
+        html = markdown.markdown(md, extensions=['fenced_code', 'codehilite'])
         self.soup = BeautifulSoup(html, "html.parser")
         self.link = f"/pages/{post_name.replace('.md', '.html')}"
         self.date, self.mins, self.tag = self.get_info()
