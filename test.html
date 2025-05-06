@@ -1,22 +1,9 @@
-<h3>Multi line code block example.</h3> <div
-  class="codehilite"><pre><span></span><code><span class="k">for</span> <span
-  class="n">i</span> <span class="ow">in</span> <span
-  class="nb">range</span><span class="p">(</span><span
-  class="nb">len</span><span class="p">(</span><span class="n">indx</span><span
-  class="p">)):</span> <span class="n">indx_to_del</span> <span
-  class="o">=</span> <span class="n">indx</span><span class="o">.</span><span
-  class="n">pop</span><span class="p">(</span><span class="mi">0</span><span
-  class="p">)</span> <span class="k">del</span> <span class="n">a</span><span
-  class="p">[</span><span class="n">indx_to_del</span><span class="p">]</span>
-  <span class="n">indx</span> <span class="o">=</span> <span
-  class="p">[</span><span class="n">n</span> <span class="o">-</span> <span
-                                                   class="mi">1</span> <span
-                                                   class="k">for</span> <span
-                                                   class="n">n</span> <span
-                                                   class="ow">in</span> <span
-                                                   class="n">indx</span><span
-                                                   class="p">]</span>
+<p>از این a میخوایم ایندکس یک یعنی qarpoz و ایندکس چهار یعنی qoja رو حذف کنیم. با روش کاهش ایندکس کد به این شکل میشه:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indx</span><span class="p">)):</span>
+    <span class="n">indx_to_del</span> <span class="o">=</span> <span class="n">indx</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">del</span> <span class="n">a</span><span class="p">[</span><span class="n">indx_to_del</span><span class="p">]</span>
+    <span class="n">indx</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">]</span>
 </code></pre></div>
 
-<h3>Single line code block</h3> <p><code>print("hello world")</code></p>
-<blockquote> <p>end of file.</p> </blockquote>
+<p>در روش بالا ابتدا به تعداد indx یک حلقه ایجاد کردیم تو این کیس بدنه حلقه دوبار اجرا خواهد شد چون indx دوتا عنصر بیشتر نداره ۱ و ۴
+بعد اومدیم اولین ایندکس باید دیلیت کنیم رو توسط متد pop انتخاب کردیم اگه نمی دونید پاپ چیکار میکنه سرچ بزنید</p>

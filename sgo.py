@@ -81,7 +81,7 @@ class Page:
 class Post:
     def __init__(self, post_name):
         md = File.read(f"./posts/{post_name}")
-        html = markdown.markdown(md, extensions=['fenced_code', 'codehilite'])
+        html = markdown.markdown(md)
         self.soup = BeautifulSoup(html, "html.parser")
         self.link = f"/pages/{post_name.replace('.md', '.html')}"
         self.date, self.mins, self.tag = self.get_info()
@@ -161,7 +161,7 @@ class PostPage(Page):
         filename = md.replace(".md", ".html")
         post = Post(md)
         md = File.read(f"./posts/{md}")
-        html = markdown.markdown(md)
+        html = markdown.markdown(md, extensions=['fenced_code', 'codehilite'])
         template = Component("post.html")
         data = {"post": html}
         content = template.render(data)

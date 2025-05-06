@@ -19,8 +19,8 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="/static/css/style.css" />
     <link rel="stylesheet" href="/static/css/pygments.css">
+    <link rel="stylesheet" href="/static/css/style.css" />
     <script src="/static/js/script.js" defer></script>
     <title>چگونه چندین عنصر بر اساس ایندکس حذف کنیم</title>
   </head>
@@ -53,13 +53,17 @@
 <p>اینکه این سطرها چطور حذف میشن یه این شکل بود که تمام سطرها در یک لیست ذخیره شده بودن. شماره سطر یا همون ایندکس سطری که توسط کاربر انتخاب شده بود هم در دسترس بود حالا کافی بود بر اساس این شماره سطرها از لیست سطرها سطرهای مورد نظر رو حذف کنیم. ولی یکی مشکلی بود فرض کنیم از بین پنج سطر موجود کاربر سطر اول و سطر پنجم رو انتخاب کرده تا حذف کنه. زمانی که سطر اول رو حذف کنیم دیگه اصلا سطر پنجمی نداریم که حذف بشه! چرا؟ چون یک سطر حذف شد و کلا چهار سطر مونده پس اگر دستور حذف بعدی ما این باشه که سطر پنجم رو حذف به خاطر نبود سطر پنجم با خطا مواجه خواهیم شد.</p>
 <h2>روش اول: کاهش ایندکس بعدی</h2>
 <p>در این روش هر بار که یک ایندکس حذف میکنیم ایندکس های بعدی که قرار حذف بر پایه اونها اتفاق بیفته رو یه دونه کم کنیم به این شکل:</p>
-<p><code>a = ["moz", "qarpoz", "portakhal", "alma", "qoja"]
-indx = [1, 4]</code></p>
+<div class="codehilite"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;moz&quot;</span><span class="p">,</span> <span class="s2">&quot;qarpoz&quot;</span><span class="p">,</span> <span class="s2">&quot;portakhal&quot;</span><span class="p">,</span> <span class="s2">&quot;alma&quot;</span><span class="p">,</span> <span class="s2">&quot;qoja&quot;</span><span class="p">]</span>
+<span class="n">indx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</code></pre></div>
+
 <p>از این a میخوایم ایندکس یک یعنی qarpoz و ایندکس چهار یعنی qoja رو حذف کنیم. با روش کاهش ایندکس کد به این شکل میشه:</p>
-<p><code>for i in range(len(indx)):
-    indx_to_del = indx.pop(0)
-    del a[indx_to_del]
-    indx = [n - 1 for n in indx]</code></p>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indx</span><span class="p">)):</span>
+    <span class="n">indx_to_del</span> <span class="o">=</span> <span class="n">indx</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">del</span> <span class="n">a</span><span class="p">[</span><span class="n">indx_to_del</span><span class="p">]</span>
+    <span class="n">indx</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">]</span>
+</code></pre></div>
+
 <p>در روش بالا ابتدا به تعداد indx یک حلقه ایجاد کردیم تو این کیس بدنه حلقه دوبار اجرا خواهد شد چون indx دوتا عنصر بیشتر نداره ۱ و ۴
 بعد اومدیم اولین ایندکس باید دیلیت کنیم رو توسط متد pop انتخاب کردیم اگه نمی دونید پاپ چیکار میکنه سرچ بزنید
 بعد توسط دستور <code>del</code> ایندکسی که پاپ به ما داده رو دیلیت کردیم
@@ -67,30 +71,35 @@ indx = [1, 4]</code></p>
 این روش کاملا مبتدی وآر و مستعد خطا هست پس بهتره بریم سراغ روش بعدی</p>
 <h2>روش دوم: پریدن از روی آیتم های که باید حذف بشن</h2>
 <p>در این روش یک لیست جدیدی میسازیم که شامل همه اعضای لیست هست منتها فاقد عناصری هست که باید حذف بشن.</p>
-<p><code>res = []
-for i, elm in enumerate(a):
-    if i in indx:
-        continue
-    else:
-        res.append(elm)</code> </p>
+<div class="codehilite"><pre><span></span><code><span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">elm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elm</span><span class="p">)</span>
+</code></pre></div>
+
 <p>در این روش ایندکس عناصر a بررسی میشن تا ببینم در لیست indx وجود دارن یا نه. اگر وجود داشته باشن که هیچ کاری نمیکنم یعنی از روی اون عنصر میپریم اگه نه عنصر رو به لیست res اضافه میکنیم. در نهایت لیست res شامل عناصری میشه که ایندکس اونها در indx نیست.
 نسخه ساده شده کد بالا میتونه به شکل زیر باشه.</p>
-<p>```
-res = [elm for i, elm in enumerate(a) if i not in indx]</p>
-<p>```</p>
+<div class="codehilite"><pre><span></span><code><span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">elm</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">elm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">indx</span><span class="p">]</span>
+</code></pre></div>
+
 <h2>روش سوم: شروع حذف از بزرگترین ایندکس</h2>
 <p>در این روش ابتدا ایندکس ها رو از بزرگ و به کوچیک مرتبط میکنیم. در این روش چون ایندکس بزرگتر جلوتر حذف میشه پس ایندکس بعدی کوچکتر هست پس جایگاهش تغییری پیدا نکرده یعنی به جای اینکه از چپ به راست در لیست حرکت کرده و حذف کنیم از راست به چپ حرکت کرده و دیلیت میکنیم:</p>
-<p><code>for i in sorted(indx, reverse=True):
-    del a[i]</code>
-به همین راحتی. ولی با پکیج numpy راحتر هم میشه</p>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">indx</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">del</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</code></pre></div>
+
+<p>به همین راحتی. ولی با پکیج numpy راحتر هم میشه</p>
 <h2>روش چهارم استفاده از پکیج numpy</h2>
-<p>```
-import numpy as np
-a = ["moz", "qarpoz", "portakhal", "alma", "qoja"]
-a = np.array(a)
-indx = [1, 4]</p>
-<p>elms = np.delete(a, indx)
-```</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;moz&quot;</span><span class="p">,</span> <span class="s2">&quot;qarpoz&quot;</span><span class="p">,</span> <span class="s2">&quot;portakhal&quot;</span><span class="p">,</span> <span class="s2">&quot;alma&quot;</span><span class="p">,</span> <span class="s2">&quot;qoja&quot;</span><span class="p">]</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">indx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="n">elms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">indx</span><span class="p">)</span>
+</code></pre></div>
+
 <p>همین خط بالایی کافی هست تا چندین عنصر بر اساس ایندکس حذف بشن.</p>
 </article>
 </main>

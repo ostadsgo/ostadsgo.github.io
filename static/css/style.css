@@ -3,6 +3,11 @@
   src: url("../fonts/Iransans/IRANSansWeb.woff") format("woff");
 }
 
+@font-face {
+  font-family: SourceCodePro;
+  src: url("../fonts/SourceCodePro/SourceCodePro-Regular.ttf") format("truetype");
+}
+
 *,
 *::before,
 *::after {
@@ -22,19 +27,20 @@
   --mobile-gap: 2rem;
   --mobile-margin: 1rem;
   --font: IranSans;
-  direction: rtl;
-  text-align: right;
 }
 
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: var(--font);
+  /* TODO: should go into a div as container div */
   min-height: 100vh;
   max-width: 40em;
   margin: 3em auto;
   display: flex;
   flex-direction: column;
+  direction: rtl;
+  text-align: right;
 
 }
 
@@ -86,14 +92,22 @@ header {
   }
 }
 
-code {
-  background-color: var(--black-color);
-  padding-inline: 0.5em;
-  color: var(--gray-color);
-  border-radius: 2px;
+code, pre {
+  font-family: 'SourceCodePro', monospace;
+  line-height: 1.5;
+  font-size: 14px;
+}
+.codehilite {
+  direction: ltr;
+  text-align: left;
+  padding: .5em 1em;
+  border-radius: 5px;
+  margin-bottom: 1em;
 }
 
-/* Dark mode */
+/* ------------ */
+/* Dark mode    */
+/* ------------ */
 .dark {
   color: var(--text-color);
   background: var(--bg-color);
@@ -107,11 +121,6 @@ code {
   blockquote {
     background-color: var(--gray-color);
     border-right: 5px solid var(--black-color);
-  }
-
-  code {
-    background-color: var(--gray-color);
-    color: var(--bg-color);
   }
 }
 

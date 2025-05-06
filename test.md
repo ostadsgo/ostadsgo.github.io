@@ -1,4 +1,5 @@
-### Multi line code block example.
+
+از این a میخوایم ایندکس یک یعنی qarpoz و ایندکس چهار یعنی qoja رو حذف کنیم. با روش کاهش ایندکس کد به این شکل میشه:
 
 ```python
 for i in range(len(indx)):
@@ -7,9 +8,5 @@ for i in range(len(indx)):
     indx = [n - 1 for n in indx]
 ```
 
-
-### Single line code block
-`print("hello world")`
-
-
-> end of file.
+در روش بالا ابتدا به تعداد indx یک حلقه ایجاد کردیم تو این کیس بدنه حلقه دوبار اجرا خواهد شد چون indx دوتا عنصر بیشتر نداره ۱ و ۴
+بعد اومدیم اولین ایندکس باید دیلیت کنیم رو توسط متد pop انتخاب کردیم اگه نمی دونید پاپ چیکار میکنه سرچ بزنید
