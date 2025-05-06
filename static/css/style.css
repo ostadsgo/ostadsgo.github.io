@@ -27,13 +27,17 @@
   --mobile-gap: 2rem;
   --mobile-margin: 1rem;
   --font: IranSans;
+  --monospace: SourceCodePro;
 }
+
 
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: var(--font);
-  /* TODO: should go into a div as container div */
+}
+
+.container {
   min-height: 100vh;
   max-width: 40em;
   margin: 3em auto;
@@ -41,7 +45,6 @@ body {
   flex-direction: column;
   direction: rtl;
   text-align: right;
-
 }
 
 /* ------------- */
@@ -93,7 +96,7 @@ header {
 }
 
 code, pre {
-  font-family: 'SourceCodePro', monospace;
+  font-family: var(--monospace), monospace;
   line-height: 1.5;
   font-size: 14px;
 }
@@ -322,7 +325,7 @@ footer div ul {
 
 /* responsive */
 @media (max-width: 768px) {
-  body {
+  .container {
     margin: 1.6em;
   }
 
